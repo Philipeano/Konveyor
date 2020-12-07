@@ -4,4 +4,20 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\" />
+    <Folder Include="Areas\Config\Controllers\" />
+    <Folder Include="Areas\Config\Views\" />
+    <Folder Include="Areas\Default\Controllers\" />
+    <Folder Include="Areas\Default\Views\" />
+    <Folder Include="Areas\Operations\Controllers\" />
+    <Folder Include="Areas\Operations\Views\" />
+    <Folder Include="Areas\Portal\Controllers\" />
+    <Folder Include="Areas\Portal\Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+  </ItemGroup>
+
 </Project>
