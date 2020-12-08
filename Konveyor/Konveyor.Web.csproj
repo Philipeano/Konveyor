@@ -8,8 +8,6 @@
     <Folder Include="Areas\" />
     <Folder Include="Areas\Config\Controllers\" />
     <Folder Include="Areas\Config\Views\" />
-    <Folder Include="Areas\Default\Controllers\" />
-    <Folder Include="Areas\Default\Views\" />
     <Folder Include="Areas\Operations\Controllers\" />
     <Folder Include="Areas\Operations\Views\" />
     <Folder Include="Areas\Portal\Controllers\" />
