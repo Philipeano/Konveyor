@@ -5,12 +5,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\Konveyor.Core\Models\CostParameters.cs" Link="CostParameters.cs" />
+    <Compile Include="..\Konveyor.Core\Models\Customers.cs" Link="Customers.cs" />
+    <Compile Include="..\Konveyor.Core\Models\Employees.cs" Link="Employees.cs" />
+    <Compile Include="..\Konveyor.Core\Models\NigerianStates.cs" Link="NigerianStates.cs" />
+    <Compile Include="..\Konveyor.Core\Models\Offices.cs" Link="Offices.cs" />
+    <Compile Include="..\Konveyor.Core\Models\Orders.cs" Link="Orders.cs" />
+    <Compile Include="..\Konveyor.Core\Models\OrderStatus.cs" Link="OrderStatus.cs" />
+    <Compile Include="..\Konveyor.Core\Models\OrderUpdates.cs" Link="OrderUpdates.cs" />
+    <Compile Include="..\Konveyor.Core\Models\Packages.cs" Link="Packages.cs" />
+    <Compile Include="..\Konveyor.Core\Models\PackageStatus.cs" Link="PackageStatus.cs" />
+    <Compile Include="..\Konveyor.Core\Models\PackageTypes.cs" Link="PackageTypes.cs" />
+    <Compile Include="..\Konveyor.Core\Models\PackageUpdates.cs" Link="PackageUpdates.cs" />
+    <Compile Include="..\Konveyor.Core\Models\Roles.cs" Link="Roles.cs" />
+    <Compile Include="..\Konveyor.Core\Models\Users.cs" Link="Users.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SqlDataService\" />
   </ItemGroup>
 
 </Project>
