@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+<!--
   <ItemGroup>
     <Compile Include="..\Konveyor.Core\Models\CostParameters.cs" Link="CostParameters.cs" />
     <Compile Include="..\Konveyor.Core\Models\Customers.cs" Link="Customers.cs" />
@@ -20,7 +21,8 @@
     <Compile Include="..\Konveyor.Core\Models\Roles.cs" Link="Roles.cs" />
     <Compile Include="..\Konveyor.Core\Models\Users.cs" Link="Users.cs" />
   </ItemGroup>
-
+-->
+	
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" />
@@ -32,6 +34,10 @@
 
   <ItemGroup>
     <Folder Include="SqlDataService\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Konveyor.Core\Konveyor.Core.csproj" />
   </ItemGroup>
 
 </Project>
