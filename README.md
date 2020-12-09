@@ -2,11 +2,15 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f31f36a918a54f6d8017d8efd021d848)](https://www.codacy.com/gh/Philipeano/Konveyor/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Philipeano/Konveyor&amp;utm_campaign=Badge_Grade)
 
-## Overview
+
+
+### Overview
 Konveyor is a web portal for logistics and parcel delivery business operators and their clients.  
 
 
-## Main features
+
+### Main features
+
 - A staff member (attendant) initiates a delivery order
 - A delivery order contains one or more well-documented packages
 - A staff member updates order (and/or package) status as necessary 
@@ -15,7 +19,9 @@ Konveyor is a web portal for logistics and parcel delivery business operators an
 - Customers can get cost estimates for their intended package(s) from the portal 
 
 
-## Technologies used
+
+### Technologies used
+
 - Primary language: ```C#``` 
 - Server technology: ```ASP.Net Core MVC```
 - Target runtime: ```.Net Core 3.1.1```
@@ -24,5 +30,6 @@ Konveyor is a web portal for logistics and parcel delivery business operators an
 - Front-end libraries: ```Bootstrap```, ```jQuery```
 
 
-## License
+
+### License
 [MIT © Philip Newman.](https://opensource.org/licenses/MIT)
