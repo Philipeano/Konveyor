@@ -11,12 +11,12 @@ Konveyor is a web portal for logistics and parcel delivery business operators an
 
 ### Main features
 
-- A staff member (attendant) initiates a delivery order
-- A delivery order contains one or more well-documented packages
-- A staff member updates order (and/or package) status as necessary 
-- Customers and staff members can track delivery orders and packages
-- Customers can create user profiles (for subsequent orders) by signing up
-- Customers can get cost estimates for their intended package(s) from the portal 
+- A staff member (attendant) initiates a delivery order (a delivery order contains one or more well-documented packages).
+- A staff member updates order (and/or package) status as necessary. 
+- Customers and staff members can track delivery orders and packages.
+- Customers can create user profiles (for subsequent orders) by signing up.
+- Customers can get cost estimates for their intended package(s) from the portal.
+- Administrators configure roles, cost parameters, locations and other fundamental settings.
 
 
 
@@ -32,4 +32,4 @@ Konveyor is a web portal for logistics and parcel delivery business operators an
 
 
 ### License
-[MIT © Philip Newman.](https://opensource.org/licenses/MIT)
+[MIT Â© Philip Newman.](https://opensource.org/licenses/MIT)
