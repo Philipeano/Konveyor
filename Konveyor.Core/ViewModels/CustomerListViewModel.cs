@@ -1,16 +1,16 @@
 ﻿using Konveyor.Core.Models;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace Konveyor.Core.ViewModels
 {
-    class CustomerListViewModel
+    public class CustomerListViewModel
     {        
-        public CustomerListViewModel(List<Customers> customerList)
+        public CustomerListViewModel(IQueryable<Customers> customerList)
         {
             // Important: Assign only customers with 'IsActive = True'
             ActiveCustomers = customerList;
         }
 
-        public List<Customers> ActiveCustomers { get; set; }
+        public IQueryable<Customers> ActiveCustomers { get; set; }
     }
 }

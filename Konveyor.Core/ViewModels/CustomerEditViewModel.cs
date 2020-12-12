@@ -3,18 +3,19 @@ using System.Collections.Generic;
 
 namespace Konveyor.Core.ViewModels
 {
-    class CustomerEditViewModel
+    public class CustomerEditViewModel
     {
-        public CustomerEditViewModel(Customers customer, Users user)
+        public CustomerEditViewModel(Users user, Customers customer, List<string> genderOptions)
         {
-            Customer = customer;
             User = user;
+            Customer = customer;
+            GenderOptions = genderOptions;
         }
-
-        public Customers Customer { get; set; }
 
         public Users User { get; set; }
 
-        public List<string> GenderOptions = new List<string> {"None selected", "Male", "Female", "Prefer not to say" };
+        public Customers Customer { get; set; }
+
+        public List<string> GenderOptions { get; set; }
     }
 }

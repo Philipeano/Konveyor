@@ -33,10 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="SqlDataService\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Konveyor.Core\Konveyor.Core.csproj" />
   </ItemGroup>
 

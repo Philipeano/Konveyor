@@ -2,17 +2,16 @@
 
 namespace Konveyor.Core.ViewModels
 {
-    class CustomerDetailViewModel
+    public class CustomerDetailViewModel
     {
-
-        public CustomerDetailViewModel(Customers customer, Users user)
+        public CustomerDetailViewModel(Users user, Customers customer)
         {
-            Customer = customer;
             User = user;
+            Customer = customer;
         }
 
-        public Customers Customer { get; set; }
-
         public Users User { get; set; }
+
+        public Customers Customer { get; set; }
     }
 }
