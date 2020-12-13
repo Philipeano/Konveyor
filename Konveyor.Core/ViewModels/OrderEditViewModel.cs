@@ -22,5 +22,7 @@ namespace Konveyor.Core.ViewModels
         public List<Customers> CustomerList { get; set; }
 
         public List<Offices> OfficeList { get; set; }
+
+        public List<OrderStatus> OrderStatusOptions { get; set; }
     }
 }
