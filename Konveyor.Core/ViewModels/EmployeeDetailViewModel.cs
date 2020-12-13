@@ -4,14 +4,14 @@ namespace Konveyor.Core.ViewModels
 {
     class EmployeeDetailViewModel
     {
-        public EmployeeDetailViewModel(Employees employee, Users user)
+        public EmployeeDetailViewModel(Users user, Employees employee)
         {
-            Employee = employee;
             User = user;
+            Employee = employee;
         }
 
-        public Employees Employee { get; set; }
-
         public Users User { get; set; }
+
+        public Employees Employee { get; set; }
     }
 }

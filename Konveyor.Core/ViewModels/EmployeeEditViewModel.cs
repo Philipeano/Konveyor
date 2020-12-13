@@ -5,16 +5,17 @@ namespace Konveyor.Core.ViewModels
 {
     class EmployeeEditViewModel
     {
-        public EmployeeEditViewModel(Employees employee, Users user)
+        public EmployeeEditViewModel(Users user, Employees employee, List<string> genderOptions)
         {
-            Employee = employee;
             User = user;
+            Employee = employee;
+            GenderOptions = genderOptions;
         }
-
-        public Employees Employee { get; set; }
 
         public Users User { get; set; }
 
-        public List<Roles> RoleOptions { get; set; }
+        public Employees Employee { get; set; }
+
+        public List<string> GenderOptions { get; set; }
     }
 }
