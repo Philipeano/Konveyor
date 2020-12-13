@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Konveyor.Core.Models;
+using System.Linq;
 
 namespace Konveyor.Core.ViewModels
 {
-    class PackageListViewModel
+    public class PackageListViewModel
     {
+        public PackageListViewModel(IQueryable<Packages> packages)
+        {
+            Packages = packages;
+        }
+
+        public IQueryable<Packages> Packages { get; set; }
     }
 }
