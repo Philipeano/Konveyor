@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Konveyor.Core.ViewModels
 {
-    class EmployeeEditViewModel
+    public class EmployeeEditViewModel
     {
         public EmployeeEditViewModel(Users user, Employees employee, List<string> genderOptions)
         {

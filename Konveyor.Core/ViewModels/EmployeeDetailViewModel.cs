@@ -2,7 +2,7 @@
 
 namespace Konveyor.Core.ViewModels
 {
-    class EmployeeDetailViewModel
+    public class EmployeeDetailViewModel
     {
         public EmployeeDetailViewModel(Users user, Employees employee)
         {

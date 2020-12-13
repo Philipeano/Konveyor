@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Konveyor.Core.ViewModels
 {
-    class EmployeeListViewModel
+    public class EmployeeListViewModel
     {
         public EmployeeListViewModel(IQueryable<Employees> employeeList)
         {
