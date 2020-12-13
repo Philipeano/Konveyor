@@ -1,10 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Konveyor.Core.Models;
+using System.Linq;
 
 namespace Konveyor.Core.ViewModels
 {
-    class OfficeListViewModel
+    public class OfficeListViewModel
     {
+
+        public OfficeListViewModel(IQueryable<Offices> officeList)
+        {
+            ActiveOffices = officeList;
+        }
+
+        public IQueryable<Offices> ActiveOffices { get; set; }
     }
 }

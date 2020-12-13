@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Konveyor.Core.Models;
 
 namespace Konveyor.Core.ViewModels
 {
-    class OfficeDetailViewModel
+    public class OfficeDetailViewModel
     {
+        public OfficeDetailViewModel(Offices office)
+        {
+            Office = office;
+        }
+
+        public Offices Office { get; set; }
     }
 }

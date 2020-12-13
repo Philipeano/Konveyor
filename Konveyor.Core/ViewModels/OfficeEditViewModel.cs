@@ -1,10 +1,18 @@
-﻿using System;
+﻿using Konveyor.Core.Models;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Konveyor.Core.ViewModels
 {
-    class OfficeEditViewModel
+    public class OfficeEditViewModel
     {
+        public OfficeEditViewModel(Offices office, List<NigerianStates> nigerianStates)
+        {
+            Office = office;
+            NigerianStates = nigerianStates;
+        }
+
+        public Offices Office { get; set; }
+
+        public List<NigerianStates> NigerianStates { get; set; }
     }
 }
