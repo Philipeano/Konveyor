@@ -53,7 +53,7 @@ namespace Konveyor
                     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
-                    name: "Operations",
+                    name: "Console",
                     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(

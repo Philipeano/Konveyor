@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Konveyor.Data
+namespace Konveyor.Core.Models
 {
     public partial class Offices
     {
