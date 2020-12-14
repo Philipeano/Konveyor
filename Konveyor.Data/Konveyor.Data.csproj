@@ -36,4 +36,8 @@
     <ProjectReference Include="..\Konveyor.Core\Konveyor.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="SqlDataService\" />
+  </ItemGroup>
+
 </Project>
