@@ -19,11 +19,24 @@ namespace Konveyor.Data.SqlDataService
         {
             dbcontext = dbContext;
             genderOptions = new List<SelectListItem> {
-                new SelectListItem("- Please select -", null),
+                new SelectListItem("- Please select -", string.Empty),
                 new SelectListItem("Male", "Male"),
                 new SelectListItem("Female", "Female")
             };
         }
+
+        // =================================================================
+        // Random number generation for customer code
+        private static readonly System.Random random = new System.Random();
+        private static readonly object syncLock = new object();
+        public static int GetRandomNumber(int min = 1000000000, int max = int.MaxValue)
+        {
+            lock (syncLock)
+            { 
+                return random.Next(min, max);
+            }
+        }
+        // =================================================================
 
 
         private Customers GetCustomerById(long id)
@@ -34,6 +47,7 @@ namespace Konveyor.Data.SqlDataService
                 .SingleOrDefault();
             return customer;
         }
+
 
         public List<CustomerDetailViewModel> GetAllCustomers()
         {
@@ -97,7 +111,7 @@ namespace Konveyor.Data.SqlDataService
             {
                 GenderOptions = genderOptions
             };
-            customerForCreate.GenderOptions.Find(g => g.Value == null).Selected = true;
+            customerForCreate.GenderOptions.Find(g => g.Value == string.Empty || g.Value == null).Selected = true;
             return customerForCreate;
         }
 
@@ -143,45 +157,51 @@ namespace Konveyor.Data.SqlDataService
 
         public bool SaveCustomerToDb(CustomerEditViewModel customerInfo)
         {
-            bool result = false;
-            Customers customerToUpdate;
-            Users userToUpdate;
+            Customers customerToSave;
+            Users userToSave;
 
             if (customerInfo.CustomerId > 0)
             {
-                customerToUpdate = new Customers();
-                userToUpdate = new Users();
-                customerToUpdate.CustomerCode = "CUSTOMER-ABC-00001";
+                customerToSave = GetCustomerById(customerInfo.CustomerId);
+                userToSave = customerToSave.User;
             }
             else
             {
-                customerToUpdate = GetCustomerById(customerInfo.CustomerId);
-                userToUpdate = customerToUpdate.User;
+                customerToSave = new Customers();
+                userToSave = new Users();
+                customerToSave.CustomerCode = $"CUSTOMER{GetRandomNumber()}";
             }
 
             // Assign fields from VM to 'customer' entity
-            // customerToUpdate.CustomerId =
-            // customerToUpdate.CustomerCode =
-            // customerToUpdate.IsActive =
-            // customerToUpdate.UserId =
-            // customerToUpdate.Status =
-            // customerToUpdate.LastUpdated =
-            customerToUpdate.PreferredName = customerInfo.PreferredName;
-            customerToUpdate.ContactAddress = customerInfo.ContactAddress;
+            // customerToSave.CustomerId =
+            // customerToSave.CustomerCode =
+            // customerToSave.IsActive =
+            // customerToSave.UserId =
+            // customerToSave.Status =
+            // userToSave.UserId =
 
-            // userToUpdate.UserId =
-            userToUpdate.FirstName = customerInfo.FirstName;
-            userToUpdate.LastName = customerInfo.LastName;
-            userToUpdate.EmailAddress = customerInfo.EmailAddress;
-            userToUpdate.PhoneNumber = customerInfo.PhoneNumber;
-            userToUpdate.Gender = customerInfo.GenderOptions.Where(g => g.Selected == true).FirstOrDefault().Value;
-            userToUpdate.Password = customerInfo.Password;
+            customerToSave.PreferredName = customerInfo.PreferredName;
+            customerToSave.ContactAddress = customerInfo.ContactAddress;
+            customerToSave.LastUpdated = System.DateTime.Now;
+            userToSave.FirstName = customerInfo.FirstName;
+            userToSave.LastName = customerInfo.LastName;
+            userToSave.EmailAddress = customerInfo.EmailAddress;
+            userToSave.PhoneNumber = customerInfo.PhoneNumber;
+            userToSave.Gender = customerInfo.Gender; 
+            userToSave.Password = customerInfo.Password;
+            customerToSave.User = userToSave;
 
-            customerToUpdate.User = userToUpdate;
-            dbcontext.Customers.Add(customerToUpdate);
+            if (customerInfo.CustomerId == 0)
+            {
+                dbcontext.Customers.Add(customerToSave);
+            }
+            else 
+            {
+                dbcontext.Customers.Update(customerToSave);
+            }
             dbcontext.SaveChanges();
-            return result;
-        }       
+            return true;
+        }
 
 
     }
