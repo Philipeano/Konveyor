@@ -3,6 +3,7 @@ using Konveyor.Core.ViewModels;
 using Konveyor.Data.Contracts;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -142,20 +143,30 @@ namespace Konveyor.Data.SqlDataService
         }
 
 
-        public bool RemoveCustomer(long customerId)
+        public void RemoveCustomer(long customerId, out string errorMsg)
         {
             Customers customer = GetCustomerById(customerId);
             if (customer == null)
-                return false;
-
-            //dbcontext.Customers.Remove(customer);
-            dbcontext.Customers.Find(customerId).IsActive = false;
-            dbcontext.SaveChanges();
-            return true;
+            {
+                errorMsg = "The specified customer does not exist.";
+                return;
+            }
+            
+            try 
+            {
+                //dbcontext.Customers.Remove(customer);
+                dbcontext.Customers.Find(customerId).IsActive = false;
+                dbcontext.SaveChanges();
+                errorMsg = string.Empty;
+            }
+            catch (Exception ex)
+            {
+                errorMsg = ex.Message;
+            }
         }
 
 
-        public bool SaveCustomerToDb(CustomerEditViewModel customerInfo)
+        public void SaveCustomerToDb(CustomerEditViewModel customerInfo, out string errorMsg)
         {
             Customers customerToSave;
             Users userToSave;
@@ -172,37 +183,34 @@ namespace Konveyor.Data.SqlDataService
                 customerToSave.CustomerCode = $"CUSTOMER{GetRandomNumber()}";
             }
 
-            // Assign fields from VM to 'customer' entity
-            // customerToSave.CustomerId =
-            // customerToSave.CustomerCode =
-            // customerToSave.IsActive =
-            // customerToSave.UserId =
-            // customerToSave.Status =
-            // userToSave.UserId =
-
-            customerToSave.PreferredName = customerInfo.PreferredName;
-            customerToSave.ContactAddress = customerInfo.ContactAddress;
-            customerToSave.LastUpdated = System.DateTime.Now;
-            userToSave.FirstName = customerInfo.FirstName;
-            userToSave.LastName = customerInfo.LastName;
-            userToSave.EmailAddress = customerInfo.EmailAddress;
-            userToSave.PhoneNumber = customerInfo.PhoneNumber;
-            userToSave.Gender = customerInfo.Gender; 
-            userToSave.Password = customerInfo.Password;
-            customerToSave.User = userToSave;
-
-            if (customerInfo.CustomerId == 0)
+            try
             {
-                dbcontext.Customers.Add(customerToSave);
+                customerToSave.PreferredName = customerInfo.PreferredName;
+                customerToSave.ContactAddress = customerInfo.ContactAddress;
+                customerToSave.LastUpdated = System.DateTime.Now;
+                userToSave.FirstName = customerInfo.FirstName;
+                userToSave.LastName = customerInfo.LastName;
+                userToSave.EmailAddress = customerInfo.EmailAddress;
+                userToSave.PhoneNumber = customerInfo.PhoneNumber;
+                userToSave.Gender = customerInfo.Gender;
+                userToSave.Password = customerInfo.Password;
+                customerToSave.User = userToSave;
+
+                if (customerInfo.CustomerId == 0)
+                {
+                    dbcontext.Customers.Add(customerToSave);
+                }
+                else
+                {
+                    dbcontext.Customers.Update(customerToSave);
+                }
+                dbcontext.SaveChanges();
+                errorMsg = string.Empty;
             }
-            else 
+            catch (Exception ex)
             {
-                dbcontext.Customers.Update(customerToSave);
+                errorMsg = ex.Message;
             }
-            dbcontext.SaveChanges();
-            return true;
         }
-
-
     }
 }

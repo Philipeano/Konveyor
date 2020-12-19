@@ -5,9 +5,6 @@ namespace Konveyor.Data.Contracts
 {
     public interface ICustomerData
     {
-
-        //public CustomerListViewModel GetAllCustomers();
-
         public List<CustomerDetailViewModel> GetAllCustomers();
 
         public CustomerDetailViewModel GetCustomerDetails(long customerId);
@@ -16,8 +13,8 @@ namespace Konveyor.Data.Contracts
 
         public CustomerEditViewModel GetCustomerForEdit(long customerId);
 
-        public bool RemoveCustomer(long customerId);
+        public void RemoveCustomer(long customerId, out string errorMsg);
 
-        public bool SaveCustomerToDb(CustomerEditViewModel customerInfo);
+        public void SaveCustomerToDb(CustomerEditViewModel customerInfo, out string errorMsg);
     }
 }
