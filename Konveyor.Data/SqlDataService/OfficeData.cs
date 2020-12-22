@@ -51,7 +51,6 @@ namespace Konveyor.Data.SqlDataService
         }
 
 
-
         public List<OfficeDetailViewModel> GetAllOffices()
         {
             IQueryable<Offices> offices = dbcontext.Offices
@@ -104,6 +103,7 @@ namespace Konveyor.Data.SqlDataService
             return officeDetails;
         }
 
+
         public OfficeEditViewModel CreateNewOffice()
         {
             OfficeEditViewModel officeForCreate = new OfficeEditViewModel
@@ -113,6 +113,7 @@ namespace Konveyor.Data.SqlDataService
             officeForCreate.StateOptions.Find(s => s.Value == null).Selected = true;
             return officeForCreate;
         }
+
 
         public OfficeEditViewModel GetOfficeForEdit(int officeId)
         {
@@ -136,6 +137,7 @@ namespace Konveyor.Data.SqlDataService
             return officeForEdit;
         }
 
+
         public void RemoveOffice(int officeId, out string errorMsg)
         {
             Offices office = GetOfficeById(officeId);
@@ -157,6 +159,7 @@ namespace Konveyor.Data.SqlDataService
                 errorMsg = ex.Message;
             }
         }
+
 
         public void SaveOfficeToDB(OfficeEditViewModel officeInfo, out string errorMsg)
         {
