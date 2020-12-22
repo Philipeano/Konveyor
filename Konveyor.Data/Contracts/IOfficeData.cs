@@ -1,18 +1,21 @@
 ﻿using Konveyor.Core.ViewModels;
+using System.Collections.Generic;
 
 namespace Konveyor.Data.Contracts
 {
     public interface IOfficeData
     {
 
-        public OfficeListViewModel GetAllOffices();
+        public List<OfficeDetailViewModel> GetAllOffices();
 
-        public OfficeDetailViewModel GetOfficeDetails(long officeId);
+        public OfficeDetailViewModel GetOfficeDetails(int officeId);
 
-        public OfficeEditViewModel GetOfficeForEdit(long? officeId);
+        public OfficeEditViewModel CreateNewOffice();
 
-        public bool RemoveOffice(long? officeId);
+        public OfficeEditViewModel GetOfficeForEdit(int officeId);
 
-        public bool SaveOfficeToDB(OfficeEditViewModel officeInfo);
+        public void RemoveOffice(int officeId, out string errorMsg);
+
+        public void SaveOfficeToDB(OfficeEditViewModel officeInfo, out string errorMsg);
     }
 }
