@@ -1,18 +1,21 @@
 ﻿using Konveyor.Core.ViewModels;
+using System.Collections.Generic;
 
 namespace Konveyor.Data.Contracts
 {
     public interface IOrderData
     {
 
-        public OrderListViewModel GetAllOrders();
+        public List<OrderDetailViewModel> GetAllOrders();
 
         public OrderDetailViewModel GetOrderDetails(long orderId);
 
-        public OrderEditViewModel GetOrderForEdit(long? orderId);
+        public OrderEditViewModel CreateNewOrder();
 
-        public bool RemoveOrder(long? orderId);
+        public OrderEditViewModel GetOrderForEdit(long orderId);
 
-        public bool SaveOrderToDb(OrderEditViewModel orderInfo);
+        // public void RemoveOrder(long orderId, out string errorMsg);
+
+        public void SaveOrderToDb(OrderEditViewModel orderInfo, out string errorMsg);
     }
 }
