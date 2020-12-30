@@ -135,7 +135,7 @@ namespace Konveyor.Data.SqlDataService
                 LastName = customer.User.LastName,
                 EmailAddress = customer.User.EmailAddress,
                 PhoneNumber = customer.User.PhoneNumber,
-                Gender = customer.User.Gender,
+                // Gender = customer.User.Gender,
                 GenderOptions = genderOptions,
             };
             customerForEdit.GenderOptions.Find(g => g.Value == customer.User.Gender).Selected = true;
@@ -187,12 +187,12 @@ namespace Konveyor.Data.SqlDataService
             {
                 customerToSave.PreferredName = customerInfo.PreferredName;
                 customerToSave.ContactAddress = customerInfo.ContactAddress;
-                customerToSave.LastUpdated = System.DateTime.Now;
+                customerToSave.LastUpdated = DateTime.Now;
                 userToSave.FirstName = customerInfo.FirstName;
                 userToSave.LastName = customerInfo.LastName;
                 userToSave.EmailAddress = customerInfo.EmailAddress;
                 userToSave.PhoneNumber = customerInfo.PhoneNumber;
-                userToSave.Gender = customerInfo.Gender;
+                userToSave.Gender = new SelectList(customerInfo.GenderOptions).SelectedValue.ToString();
                 userToSave.Password = customerInfo.Password;
                 customerToSave.User = userToSave;
 
