@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Konveyor.Core.Models
 {
-    public partial class PackageUpdates
+    public class PackageUpdates
     {
         public long EntryId { get; set; }
         public long PackageId { get; set; }

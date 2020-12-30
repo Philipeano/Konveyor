@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Konveyor.Core.Models
 {
-    public partial class OrderUpdates
+    public class OrderUpdates
     {
         public long EntryId { get; set; }
         public long OrderId { get; set; }
