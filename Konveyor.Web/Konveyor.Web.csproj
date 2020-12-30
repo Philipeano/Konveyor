@@ -9,8 +9,6 @@
     <Folder Include="Areas\Config\Views\" />
     <Folder Include="Areas\Console\Controllers\" />
     <Folder Include="Areas\Console\Views\" />
-    <Folder Include="Areas\Portal\Controllers\" />
-    <Folder Include="Areas\Portal\Views\" />
   </ItemGroup>
 
   <ItemGroup>
