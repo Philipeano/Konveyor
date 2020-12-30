@@ -1,18 +1,21 @@
 ﻿using Konveyor.Core.ViewModels;
+using System.Collections.Generic;
 
 namespace Konveyor.Data.Contracts
 {
     public interface IPackageData
     {
 
-        public PackageListViewModel GetAllPackages();
+        public List<PackageDetailViewModel> GetAllPackages(long orderId);
 
         public PackageDetailViewModel GetPackageDetails(long packageId);
 
-        public PackageEditViewModel GetPackageForEdit(long? packageId);
+        public PackageEditViewModel CreateNewPackage();
 
-        public bool RemovePackage(long? packageId);
+        public PackageEditViewModel GetPackageForEdit(long packageId);
 
-        public bool SavePackageToDb(PackageEditViewModel packageInfo);
+        // public void RemovePackage(long packageId);
+
+        public void SavePackageToDb(PackageEditViewModel packageInfo, out string errorMsg);
     }
 }
