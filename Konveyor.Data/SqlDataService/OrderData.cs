@@ -141,14 +141,14 @@ namespace Konveyor.Data.SqlDataService
                 .Where(u => u.OrderId == id)
                 .OrderBy(u => u.EntryId)
                 .Include(u => u.NewOrderStatus)
-                .Include(u => u.ProcessedBy)
+                .Include(u => u.ProcessedByNavigation)
                 .First(),
 
                 recentUpdate = dbcontext.OrderUpdates
                 .Where(u => u.OrderId == id)
                 .OrderBy(u => u.EntryId)
                 .Include(u => u.NewOrderStatus)
-                .Include(u => u.ProcessedBy)
+                .Include(u => u.ProcessedByNavigation)
                 .Last()
             };
             return orderInfo;
@@ -222,7 +222,6 @@ namespace Konveyor.Data.SqlDataService
 
             OrderDetailViewModel orderDetails = new OrderDetailViewModel
             {
-
                 OrderId = orderInfo.order.OrderId,
                 TrackingCode = orderInfo.order.TrackingCode,
                 RecipientName = orderInfo.order.RecipientName,
@@ -325,11 +324,10 @@ namespace Konveyor.Data.SqlDataService
             {
                 orderToSave = GetOrderById(orderInfo.OrderId).order;
 
-                orderUpdateToSave.NewOrderStatusId = 0;
-                orderUpdateToSave.Remarks = orderInfo.Remarks;
-                orderUpdateToSave.ProcessedBy = (long)new SelectList(orderInfo.InitiatorOptions).SelectedValue;
+                orderUpdateToSave.NewOrderStatusId = (int)new SelectList(orderInfo.NewStatusOptions).SelectedValue;
+                orderUpdateToSave.Remarks = orderInfo.NewRemarks;
+                orderUpdateToSave.ProcessedBy = (long)new SelectList(orderInfo.UpdaterOptions).SelectedValue;
                 orderUpdateToSave.EntryDate = DateTime.Now;
-
             }
             else
             {
@@ -348,10 +346,10 @@ namespace Konveyor.Data.SqlDataService
                     ExpectedNumOfDays = orderInfo.ExpectedNumOfDays
 
                 };
-                
-                orderUpdateToSave.NewOrderStatusId = (int)new SelectList(orderInfo.NewStatusOptions).SelectedValue;
-                orderUpdateToSave.Remarks = orderInfo.NewRemarks;
-                orderUpdateToSave.ProcessedBy = (long)new SelectList(orderInfo.UpdaterOptions).SelectedValue;
+
+                orderUpdateToSave.NewOrderStatusId = 0;
+                orderUpdateToSave.Remarks = orderInfo.Remarks;
+                orderUpdateToSave.ProcessedBy = (long)new SelectList(orderInfo.InitiatorOptions).SelectedValue;
                 orderUpdateToSave.EntryDate = DateTime.Now;
             }
 

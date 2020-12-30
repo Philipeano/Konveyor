@@ -30,13 +30,13 @@ namespace Konveyor.Core.ViewModels
 
 
         [DataType(DataType.MultilineText)]
-        [Required(ErrorMessage = "Provide a brief summary of, or comment on, this delivery order."), MaxLength(500)]
+        [Required(ErrorMessage = "Provide a brief summary of, or comment on, this order."), MaxLength(500)]
         [Display(Name = "Remarks")]
         public string Remarks { get; set; }
 
 
         [DataType(DataType.Currency)]
-        [Required(ErrorMessage = "Enter the total cost of this delivery order.")]
+        [Required(ErrorMessage = "Enter the total cost of this order.")]
         [Display(Name = "Total Cost (₦)")]
         public decimal TotalCost { get; set; }
 
@@ -56,7 +56,7 @@ namespace Konveyor.Core.ViewModels
         public long SenderId { get; set; }
 
         [DataType(DataType.Text)]
-        [Required(ErrorMessage = "Select the customer placing this delivery order.")]
+        [Required(ErrorMessage = "Select the customer placing this order.")]
         [Display(Name = "Sender")]
         public string SenderName { get; set; }
 
@@ -86,7 +86,7 @@ namespace Konveyor.Core.ViewModels
         */
 
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Specify the date this delivery order was placed.")]
+        [Required(ErrorMessage = "Specify the date this order was placed.")]
         [Display(Name = "Order Date")]
         public System.DateTime DateInitiated { get; set; }
 
@@ -94,7 +94,7 @@ namespace Konveyor.Core.ViewModels
         public long InitiatorId { get; set; }
 
         [DataType(DataType.Text)]
-        [Required(ErrorMessage = "Specify the attendant / staff member who initiated this delivery order.")]
+        [Required(ErrorMessage = "Specify the staff member who initiated this order.")]
         [Display(Name = "Initiated By")]
         public string InitiatorName { get; set; }
 
@@ -102,14 +102,8 @@ namespace Konveyor.Core.ViewModels
         public int CurrentStatusId { get; set; }
 
         [DataType(DataType.Text)]
-        [Required(ErrorMessage = "Specify the current status of this delivery order.")]
+        [Required(ErrorMessage = "Specify the current status of this order.")]
         [Display(Name = "Status")]
         public string CurrentStatus { get; set; }
     }
 }
-
-
-
-//[DataType(DataType.Text)]
-//[Required(ErrorMessage = "Enter .")]
-//[Display(Name = "")]

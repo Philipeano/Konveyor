@@ -32,7 +32,7 @@ namespace Konveyor.Core.ViewModels
 
 
         [DataType(DataType.Currency)]
-        [Required(ErrorMessage = "Enter the total cost of this delivery order.")]
+        [Required(ErrorMessage = "Enter the total cost of this order.")]
         [Display(Name = "Total Cost (₦)")]
         public decimal TotalCost { get; set; }
 
@@ -52,7 +52,7 @@ namespace Konveyor.Core.ViewModels
         public long SenderId { get; set; }
 
         [DataType(DataType.Text)]
-        [Required(ErrorMessage = "Select the customer placing this delivery order.")]
+        [Required(ErrorMessage = "Select the customer placing this order.")]
         [Display(Name = "Sender")]
         public List<SelectListItem> SenderOptions { get; set; }
 
@@ -81,13 +81,13 @@ namespace Konveyor.Core.ViewModels
         */
 
         [DataType(DataType.MultilineText)]
-        [Required(ErrorMessage = "Provide a brief summary of, or comment on, this delivery order."), MaxLength(500)]
+        [Required(ErrorMessage = "Provide a brief summary of, or comment on, this order."), MaxLength(500)]
         [Display(Name = "Remarks")]
         public string Remarks { get; set; }
 
 
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Specify the date this delivery order was placed.")]
+        [Required(ErrorMessage = "Specify the date this order was placed.")]
         [Display(Name = "Order Date")]
         public System.DateTime DateInitiated { get; set; }
 
@@ -96,7 +96,7 @@ namespace Konveyor.Core.ViewModels
         public long InitiatorId { get; set; }
 
         [DataType(DataType.Text)]
-        [Required(ErrorMessage = "Specify the attendant / staff member initiating this delivery order.")]
+        [Required(ErrorMessage = "Specify the staff member initiating this order.")]
         [Display(Name = "Initiated By")]
         public List<SelectListItem> InitiatorOptions { get; set; }
 
@@ -104,7 +104,7 @@ namespace Konveyor.Core.ViewModels
         public int CurrentStatusId { get; set; }
 
         [DataType(DataType.Text)]
-        [Required(ErrorMessage = "Specify the current status of this delivery order.")]
+        [Required(ErrorMessage = "Specify the current status of this order.")]
         [Display(Name = "Current Status")]
         public string CurrentStatus { get; set; }
 
@@ -117,13 +117,13 @@ namespace Konveyor.Core.ViewModels
         */
 
         [DataType(DataType.MultilineText)]
-        [Required(ErrorMessage = "Describe or comment on the update being made to this delivery order."), MaxLength(500)]
+        [Required(ErrorMessage = "Describe or comment on the update being made to this order."), MaxLength(500)]
         [Display(Name = "New Remarks")]
         public string NewRemarks { get; set; }
 
 
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Specify the date this delivery order was last updated.")]
+        [Required(ErrorMessage = "Specify the date this order is being updated.")]
         [Display(Name = "Last Updated")]
         public System.DateTime DateUpdated { get; set; }
 
@@ -132,7 +132,7 @@ namespace Konveyor.Core.ViewModels
         public long UpdaterId { get; set; }
 
         [DataType(DataType.Text)]
-        [Required(ErrorMessage = "Specify the attendant / staff member updating this delivery order.")]
+        [Required(ErrorMessage = "Specify the staff member updating this order.")]
         [Display(Name = "Updated By")]
         public List<SelectListItem> UpdaterOptions { get; set; }
 
@@ -140,7 +140,7 @@ namespace Konveyor.Core.ViewModels
         public int NewStatusId { get; set; }
 
         [DataType(DataType.Text)]
-        [Required(ErrorMessage = "Specify the new status of this delivery order.")]
+        [Required(ErrorMessage = "Specify the new status of this order.")]
         [Display(Name = "New Status")]
         public List<SelectListItem> NewStatusOptions { get; set; }
     }
