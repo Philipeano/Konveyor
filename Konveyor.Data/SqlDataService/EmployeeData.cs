@@ -163,7 +163,6 @@ namespace Konveyor.Data.SqlDataService
                 LastName = employee.User.LastName,
                 EmailAddress = employee.User.EmailAddress,
                 PhoneNumber = employee.User.PhoneNumber,
-                Gender = employee.User.Gender,
                 GenderOptions = genderOptions,
                 RoleOptions = roleOptions
             };
@@ -184,7 +183,6 @@ namespace Konveyor.Data.SqlDataService
 
             try
             {
-                //dbcontext.Employees.Remove(employee);
                 dbcontext.Employees.Find(employeeId).IsActive = false;
                 dbcontext.SaveChanges();
                 errorMsg = string.Empty;
@@ -200,32 +198,29 @@ namespace Konveyor.Data.SqlDataService
         {
             Employees employeeToSave;
             Users userToSave;
-            // Roles userRole;
 
             if (employeeInfo.EmployeeId > 0)
             {
                 employeeToSave = GetEmployeeById(employeeInfo.EmployeeId);
                 userToSave = employeeToSave.User;
-                // userRole = employeeToSave.Role;
             }
             else
             {
                 employeeToSave = new Employees();
                 userToSave = new Users();
-                // userRole = new Roles();
                 employeeToSave.EmployeeCode = $"EMPLOYEE{GetRandomNumber()}";
             }
 
             try
             {
                 employeeToSave.Designation = employeeInfo.Designation;
-                employeeToSave.RoleId = employeeInfo.RoleId;
+                employeeToSave.RoleId = (int) new SelectList(employeeInfo.RoleOptions).SelectedValue;
                 employeeToSave.LastUpdated = DateTime.Now;
                 userToSave.FirstName = employeeInfo.FirstName;
                 userToSave.LastName = employeeInfo.LastName;
                 userToSave.EmailAddress = employeeInfo.EmailAddress;
                 userToSave.PhoneNumber = employeeInfo.PhoneNumber;
-                userToSave.Gender = employeeInfo.Gender;
+                userToSave.Gender = new SelectList(employeeInfo.GenderOptions).SelectedValue.ToString();
                 userToSave.Password = employeeInfo.Password;
                 employeeToSave.User = userToSave;
 
