@@ -294,7 +294,7 @@ namespace Konveyor.Data.SqlDataService
                 InitiatorId = (long)orderInfo.initialUpdate.ProcessedBy,
                 DateInitiated = orderInfo.initialUpdate.EntryDate,
                 CurrentStatusId = orderInfo.recentUpdate.NewOrderStatusId,
-                CurrentStatus = orderInfo.recentUpdate.NewOrderStatus.OrderStatus1,
+                // CurrentStatus = orderInfo.recentUpdate.NewOrderStatus.OrderStatus1,
                 Remarks = orderInfo.recentUpdate.Remarks,
 
                 NewStatusOptions = statusOptions,
@@ -356,15 +356,7 @@ namespace Konveyor.Data.SqlDataService
             try
             {
                 orderUpdateToSave.Order = orderToSave;
-
-                //if (orderInfo.OrderId == 0)
-                //{
-                //    dbcontext.OrderUpdates.Add(orderUpdateToSave);
-                //}
-                //else
-                //{
-                    dbcontext.OrderUpdates.Add(orderUpdateToSave);
-                //}
+                dbcontext.OrderUpdates.Add(orderUpdateToSave);
                 dbcontext.SaveChanges();
                 errorMsg = string.Empty;
             }
