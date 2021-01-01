@@ -242,10 +242,12 @@ namespace Konveyor.Data.SqlDataService
                 PackageTypeId = packageInfo.package.PackageTypeId,
                 PackageTypeOptions = packageTypeOptions,
 
+                OrderId = orderInfo.OrderId,
+                OrderVM = orderInfo,
+
                 RecorderId = (long)packageInfo.initialUpdate.LoggedBy,
                 DateRecorded = packageInfo.initialUpdate.EntryDate,
                 CurrentStatusId = packageInfo.recentUpdate.NewPackageStatusId,
-                CurrentStatus = packageInfo.recentUpdate.NewPackageStatus.PackageStatus1,
                 Remarks = packageInfo.recentUpdate.Remarks,
 
                 NewStatusOptions = statusOptions,
@@ -295,15 +297,7 @@ namespace Konveyor.Data.SqlDataService
             try
             {
                 packageUpdateToSave.Package = packageToSave;
-
-                //if (packageInfo.PackageId == 0)
-                //{
-                //    dbcontext.PackageUpdates.Add(packageUpdateToSave);
-                //}
-                //else
-                //{
                 dbcontext.PackageUpdates.Add(packageUpdateToSave);
-                //}
                 dbcontext.SaveChanges();
                 errorMsg = string.Empty;
             }
