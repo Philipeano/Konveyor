@@ -48,5 +48,9 @@ namespace Konveyor.Core.ViewModels
         [Required(ErrorMessage = "Enter your contact or residential address."), MaxLength(200)]
         [Display(Name = "Contact Address")]
         public string ContactAddress { get; set; }
+
+
+        [DataType(DataType.Text)]
+        public string Gender { get; set; }
     }
 }

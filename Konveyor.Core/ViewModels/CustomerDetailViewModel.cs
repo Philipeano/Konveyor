@@ -2,7 +2,6 @@
 {
     public class CustomerDetailViewModel : CustomerBaseViewModel
     {
-        public string Gender { get; set; }
 
     }
 }
