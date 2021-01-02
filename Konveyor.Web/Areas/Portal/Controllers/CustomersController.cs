@@ -77,12 +77,11 @@ namespace Konveyor.Web.Areas.Portal.Controllers
                     Password = collection["Password"]
                 };
 
-                customerData.SaveCustomerToDb(customerVM, out string errorMsg);
+                customerData.TrySaveCustomerToDb(customerVM, out string errorMsg);
                 if (errorMsg != string.Empty)
                 {
                     ViewData["ErrorMessage"] = $"Unable to create the profile: {errorMsg}";
                     return View();
-                    // return View(new ErrorViewModel());
                 }
                 else
                 {
@@ -115,12 +114,11 @@ namespace Konveyor.Web.Areas.Portal.Controllers
                     Gender = collection["Gender"],
                     Password = collection["Password"]
                 };
-                customerData.SaveCustomerToDb(customerVM, out string errorMsg);
+                customerData.TrySaveCustomerToDb(customerVM, out string errorMsg);
                 if (errorMsg != string.Empty)
                 {
                     ViewData["ErrorMessage"] = $"Unable to update the profile: {errorMsg}";
                     return View();
-                    // return View(new ErrorViewModel());
                 }
                 else
                 {
@@ -137,7 +135,7 @@ namespace Konveyor.Web.Areas.Portal.Controllers
         // GET: CustomersController/Delete/:id
         public ActionResult Delete(long id)
         {
-            customerData.RemoveCustomer(id, out string errorMsg);
+            customerData.TryRemoveCustomer(id, out string errorMsg);
             if (errorMsg != string.Empty)
                 ViewData["ErrorMessage"] = $"Unable to delete the profile: {errorMsg}";
 
@@ -150,12 +148,11 @@ namespace Konveyor.Web.Areas.Portal.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(long id, IFormCollection collection)
         {
-            customerData.RemoveCustomer(id, out string errorMsg);
+            customerData.TryRemoveCustomer(id, out string errorMsg);
             if (errorMsg != string.Empty)
             {
                 ViewData["ErrorMessage"] = $"Unable to delete the profile: {errorMsg}";
                 return RedirectToAction(nameof(Index));
-                //return View(new ErrorViewModel());
             }
             else
             {

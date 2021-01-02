@@ -13,8 +13,8 @@ namespace Konveyor.Data.Contracts
 
         public CustomerEditViewModel GetCustomerForEdit(long customerId);
 
-        public void RemoveCustomer(long customerId, out string errorMsg);
+        public bool TryRemoveCustomer(long customerId, out string errorMsg);
 
-        public void SaveCustomerToDb(CustomerEditViewModel customerInfo, out string errorMsg);
+        public bool TrySaveCustomerToDb(CustomerEditViewModel customerInfo, out string errorMsg);
     }
 }

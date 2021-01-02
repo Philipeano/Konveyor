@@ -14,8 +14,8 @@ namespace Konveyor.Data.Contracts
 
         public OfficeEditViewModel GetOfficeForEdit(int officeId);
 
-        public void RemoveOffice(int officeId, out string errorMsg);
+        public bool TryRemoveOffice(int officeId, out string errorMsg);
 
-        public void SaveOfficeToDB(OfficeEditViewModel officeInfo, out string errorMsg);
+        public bool TrySaveOfficeToDB(OfficeEditViewModel officeInfo, out string errorMsg);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Konveyor.Core.Models;
+﻿using Konveyor.Common.Utilities;
+using Konveyor.Core.Models;
 using Konveyor.Core.ViewModels;
 using Konveyor.Data.Contracts;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -28,18 +29,6 @@ namespace Konveyor.Data.SqlDataService
             roleOptions = PopulateRoles();
         }
 
-        // =================================================================
-        // Random number generation for employee code
-        private static readonly Random random = new Random();
-        private static readonly object syncLock = new object();
-        public static int GetRandomNumber(int min = 1000000000, int max = int.MaxValue)
-        {
-            lock (syncLock)
-            {
-                return random.Next(min, max);
-            }
-        }
-        // =================================================================
 
         private List<SelectListItem> PopulateRoles()
         {
@@ -172,13 +161,13 @@ namespace Konveyor.Data.SqlDataService
         }
 
 
-        public void RemoveEmployee(long employeeId, out string errorMsg)
+        public bool TryRemoveEmployee(long employeeId, out string errorMsg)
         {
             Employees employee = GetEmployeeById(employeeId);
             if (employee == null)
             {
                 errorMsg = "The specified employee does not exist.";
-                return;
+                return false;
             }
 
             try
@@ -186,15 +175,17 @@ namespace Konveyor.Data.SqlDataService
                 dbcontext.Employees.Find(employeeId).IsActive = false;
                 dbcontext.SaveChanges();
                 errorMsg = string.Empty;
+                return true;
             }
             catch (Exception ex)
             {
                 errorMsg = ex.Message;
+                return false;
             }
         }
 
 
-        public void SaveEmployeeToDb(EmployeeEditViewModel employeeInfo, out string errorMsg)
+        public bool TrySaveEmployeeToDb(EmployeeEditViewModel employeeInfo, out string errorMsg)
         {
             Employees employeeToSave;
             Users userToSave;
@@ -208,7 +199,7 @@ namespace Konveyor.Data.SqlDataService
             {
                 employeeToSave = new Employees();
                 userToSave = new Users();
-                employeeToSave.EmployeeCode = $"EMPLOYEE{GetRandomNumber()}";
+                employeeToSave.EmployeeCode = CodeGenerator.GenerateCode("Employee");
             }
 
             try
@@ -234,10 +225,12 @@ namespace Konveyor.Data.SqlDataService
                 }
                 dbcontext.SaveChanges();
                 errorMsg = string.Empty;
+                return true;
             }
             catch (Exception ex)
             {
                 errorMsg = ex.Message;
+                return false;
             }
         }
     }

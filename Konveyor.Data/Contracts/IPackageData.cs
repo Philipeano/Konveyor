@@ -14,8 +14,6 @@ namespace Konveyor.Data.Contracts
 
         public PackageEditViewModel GetPackageForEdit(long packageId);
 
-        // public void RemovePackage(long packageId);
-
-        public void SavePackageToDb(PackageEditViewModel packageInfo, out string errorMsg);
+        public bool TrySavePackageToDb(PackageEditViewModel packageInfo, out string errorMsg);
     }
 }

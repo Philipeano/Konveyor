@@ -138,30 +138,31 @@ namespace Konveyor.Data.SqlDataService
         }
 
 
-        public void RemoveOffice(int officeId, out string errorMsg)
+        public bool TryRemoveOffice(int officeId, out string errorMsg)
         {
             Offices office = GetOfficeById(officeId);
             if (office == null)
             {
                 errorMsg = "The specified office does not exist.";
-                return;
+                return false;
             }
 
             try
             {
-                //dbcontext.Offices.Remove(office);
                 dbcontext.Offices.Find(officeId).IsActive = false;
                 dbcontext.SaveChanges();
                 errorMsg = string.Empty;
+                return true;
             }
             catch (Exception ex)
             {
                 errorMsg = ex.Message;
+                return false;
             }
         }
 
 
-        public void SaveOfficeToDB(OfficeEditViewModel officeInfo, out string errorMsg)
+        public bool TrySaveOfficeToDB(OfficeEditViewModel officeInfo, out string errorMsg)
         {
             Offices officeToSave;
 
@@ -192,10 +193,12 @@ namespace Konveyor.Data.SqlDataService
                 }
                 dbcontext.SaveChanges();
                 errorMsg = string.Empty;
+                return true;
             }
             catch (Exception ex)
             {
                 errorMsg = ex.Message;
+                return false;
             }
         }
     }

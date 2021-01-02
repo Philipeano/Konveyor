@@ -1,4 +1,5 @@
-﻿using Konveyor.Core.Models;
+﻿using Konveyor.Common.Utilities;
+using Konveyor.Core.Models;
 using Konveyor.Core.ViewModels;
 using Konveyor.Data.Contracts;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -25,19 +26,6 @@ namespace Konveyor.Data.SqlDataService
                 new SelectListItem("Female", "Female")
             };
         }
-
-        // =================================================================
-        // Random number generation for customer code
-        private static readonly System.Random random = new System.Random();
-        private static readonly object syncLock = new object();
-        public static int GetRandomNumber(int min = 1000000000, int max = int.MaxValue)
-        {
-            lock (syncLock)
-            { 
-                return random.Next(min, max);
-            }
-        }
-        // =================================================================
 
 
         private Customers GetCustomerById(long id)
@@ -135,7 +123,7 @@ namespace Konveyor.Data.SqlDataService
                 LastName = customer.User.LastName,
                 EmailAddress = customer.User.EmailAddress,
                 PhoneNumber = customer.User.PhoneNumber,
-                // Gender = customer.User.Gender,
+                Gender = customer.User.Gender,
                 GenderOptions = genderOptions,
             };
             customerForEdit.GenderOptions.Find(g => g.Value == customer.User.Gender).Selected = true;
@@ -143,30 +131,31 @@ namespace Konveyor.Data.SqlDataService
         }
 
 
-        public void RemoveCustomer(long customerId, out string errorMsg)
+        public bool TryRemoveCustomer(long customerId, out string errorMsg)
         {
             Customers customer = GetCustomerById(customerId);
             if (customer == null)
             {
                 errorMsg = "The specified customer does not exist.";
-                return;
+                return false;
             }
             
             try 
             {
-                //dbcontext.Customers.Remove(customer);
                 dbcontext.Customers.Find(customerId).IsActive = false;
                 dbcontext.SaveChanges();
                 errorMsg = string.Empty;
+                return true;
             }
             catch (Exception ex)
             {
                 errorMsg = ex.Message;
+                return false;
             }
         }
 
 
-        public void SaveCustomerToDb(CustomerEditViewModel customerInfo, out string errorMsg)
+        public bool TrySaveCustomerToDb(CustomerEditViewModel customerInfo, out string errorMsg)
         {
             Customers customerToSave;
             Users userToSave;
@@ -180,7 +169,7 @@ namespace Konveyor.Data.SqlDataService
             {
                 customerToSave = new Customers();
                 userToSave = new Users();
-                customerToSave.CustomerCode = $"CUSTOMER{GetRandomNumber()}";
+                customerToSave.CustomerCode = CodeGenerator.GenerateCode("Customer"); 
             }
 
             try
@@ -206,10 +195,12 @@ namespace Konveyor.Data.SqlDataService
                 }
                 dbcontext.SaveChanges();
                 errorMsg = string.Empty;
+                return true;
             }
             catch (Exception ex)
             {
                 errorMsg = ex.Message;
+                return false;
             }
         }
     }

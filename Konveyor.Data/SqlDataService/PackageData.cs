@@ -263,7 +263,7 @@ namespace Konveyor.Data.SqlDataService
         }
 
 
-        public void SavePackageToDb(PackageEditViewModel packageInfo, out string errorMsg)
+        public bool TrySavePackageToDb(PackageEditViewModel packageInfo, out string errorMsg)
         {
             Packages packageToSave;
             PackageUpdates packageUpdateToSave = new PackageUpdates();
@@ -300,10 +300,12 @@ namespace Konveyor.Data.SqlDataService
                 dbcontext.PackageUpdates.Add(packageUpdateToSave);
                 dbcontext.SaveChanges();
                 errorMsg = string.Empty;
+                return true;
             }
             catch (Exception ex)
             {
                 errorMsg = ex.Message;
+                return false;
             }
 
         }

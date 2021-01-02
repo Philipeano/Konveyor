@@ -14,8 +14,6 @@ namespace Konveyor.Data.Contracts
 
         public OrderEditViewModel GetOrderForEdit(long orderId);
 
-        // public void RemoveOrder(long orderId, out string errorMsg);
-
-        public void SaveOrderToDb(OrderEditViewModel orderInfo, out string errorMsg);
+        public bool TrySaveOrderToDb(OrderEditViewModel orderInfo, out string errorMsg);
     }
 }

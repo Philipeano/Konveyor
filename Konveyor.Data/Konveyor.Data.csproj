@@ -34,6 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Konveyor.Common\Konveyor.Common.csproj" />
     <ProjectReference Include="..\Konveyor.Core\Konveyor.Core.csproj" />
   </ItemGroup>
 

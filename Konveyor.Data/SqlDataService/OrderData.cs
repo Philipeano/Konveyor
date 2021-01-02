@@ -1,4 +1,5 @@
-﻿using Konveyor.Core.Models;
+﻿using Konveyor.Common.Utilities;
+using Konveyor.Core.Models;
 using Konveyor.Core.ViewModels;
 using Konveyor.Data.Contracts;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -76,19 +77,6 @@ namespace Konveyor.Data.SqlDataService
             public OrderUpdates recentUpdate;
         }
 
-
-        // =================================================================
-        // Random number generation for tracking code
-        private static readonly Random random = new Random();
-        private static readonly object syncLock = new object();
-        public static int GetRandomNumber(int min = 1000000000, int max = int.MaxValue)
-        {
-            lock (syncLock)
-            {
-                return random.Next(min, max);
-            }
-        }
-        // =================================================================
 
         private List<SelectListItem> PopulateLocations()
         {
@@ -294,7 +282,6 @@ namespace Konveyor.Data.SqlDataService
                 InitiatorId = (long)orderInfo.initialUpdate.ProcessedBy,
                 DateInitiated = orderInfo.initialUpdate.EntryDate,
                 CurrentStatusId = orderInfo.recentUpdate.NewOrderStatusId,
-                // CurrentStatus = orderInfo.recentUpdate.NewOrderStatus.OrderStatus1,
                 Remarks = orderInfo.recentUpdate.Remarks,
 
                 NewStatusOptions = statusOptions,
@@ -315,7 +302,7 @@ namespace Konveyor.Data.SqlDataService
         }
 
 
-        public void SaveOrderToDb(OrderEditViewModel orderInfo, out string errorMsg)
+        public bool TrySaveOrderToDb(OrderEditViewModel orderInfo, out string errorMsg)
         {
             Orders orderToSave;
             OrderUpdates orderUpdateToSave = new OrderUpdates();
@@ -333,7 +320,7 @@ namespace Konveyor.Data.SqlDataService
             {
                 orderToSave = new Orders
                 {
-                    TrackingCode = $"ORD{DateTime.Today.Year}{GetRandomNumber()}",
+                    TrackingCode = CodeGenerator.GenerateCode("Order"),
                     OriginOfficeId = (int)new SelectList(orderInfo.OriginOptions).SelectedValue,
                     DestinationOfficeId = (int)new SelectList(orderInfo.DestinationOptions).SelectedValue,
                     SenderId = (long)new SelectList(orderInfo.SenderOptions).SelectedValue,
@@ -359,10 +346,12 @@ namespace Konveyor.Data.SqlDataService
                 dbcontext.OrderUpdates.Add(orderUpdateToSave);
                 dbcontext.SaveChanges();
                 errorMsg = string.Empty;
+                return true;
             }
             catch (Exception ex)
             {
                 errorMsg = ex.Message;
+                return false;
             }
         }
     }
