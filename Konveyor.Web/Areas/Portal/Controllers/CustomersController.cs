@@ -64,7 +64,7 @@ namespace Konveyor.Web.Areas.Portal.Controllers
         {
             try
             {
-                CustomerEditViewModel customerVM = new CustomerEditViewModel()
+                CustomerEditViewModel customerVM = new CustomerEditViewModel
                 {
                     CustomerId = 0,
                     PreferredName = collection["PreferredName"],
@@ -137,7 +137,9 @@ namespace Konveyor.Web.Areas.Portal.Controllers
         {
             customerData.TryRemoveCustomer(id, out string errorMsg);
             if (errorMsg != string.Empty)
+            {
                 ViewData["ErrorMessage"] = $"Unable to delete the profile: {errorMsg}";
+            }
 
             return RedirectToAction(nameof(Index));
         }

@@ -45,12 +45,14 @@ namespace Konveyor.Data.SqlDataService
                 .Where(c => c.IsActive == true && c.User != null);
 
             if (!customers.Any())
-                return null;
-
-            List<CustomerDetailViewModel> activeCustomers = new List<CustomerDetailViewModel>();
-            foreach (var customer in customers)
             {
-                var activeCustomer = new CustomerDetailViewModel()
+                return null;
+            }
+
+            List<CustomerDetailViewModel> customerList = new List<CustomerDetailViewModel>();
+            foreach (Customers customer in customers)
+            {
+                CustomerDetailViewModel customerInfo = new CustomerDetailViewModel
                 {
                     CustomerId = customer.CustomerId,
                     CustomerCode = customer.CustomerCode,
@@ -64,9 +66,9 @@ namespace Konveyor.Data.SqlDataService
                     PhoneNumber = customer.User.PhoneNumber,
                     Gender = customer.User.Gender
                 };
-                activeCustomers.Add(activeCustomer);
+                customerList.Add(customerInfo);
             }
-            return activeCustomers;
+            return customerList;
         }
 
 
@@ -74,9 +76,11 @@ namespace Konveyor.Data.SqlDataService
         {
             Customers customer = GetCustomerById(customerId);
             if (customer == null)
+            {
                 return null;
+            }
 
-            CustomerDetailViewModel customerDetails = new CustomerDetailViewModel
+            CustomerDetailViewModel customerInfo = new CustomerDetailViewModel
             {
                 CustomerId = customer.CustomerId,
                 CustomerCode = customer.CustomerCode,
@@ -90,7 +94,7 @@ namespace Konveyor.Data.SqlDataService
                 PhoneNumber = customer.User.PhoneNumber,
                 Gender = customer.User.Gender
             };
-            return customerDetails;
+            return customerInfo;
         }
 
 

@@ -32,20 +32,21 @@ namespace Konveyor.Data.SqlDataService
 
         private List<SelectListItem> PopulateRoles()
         {
-            List<SelectListItem> roleOptions = new List<SelectListItem>()
+            List<SelectListItem> roleList = new List<SelectListItem>
             {
                 new SelectListItem("- Please select -", null),
             };
-            
-            var predefinedRoles = dbcontext.Roles
-                .Where(r => r.IsActive == true && r.RoleId > 0 && r.RoleId < 4)
-                .OrderBy(r => r.RoleId).ToList();
 
-            foreach (var role in predefinedRoles)
+            List<Roles> predefinedRoles = dbcontext.Roles
+                .Where(r => r.IsActive == true && r.RoleId > 0 && r.RoleId < 4)
+                .OrderBy(r => r.RoleId)
+                .ToList();
+
+            foreach (Roles role in predefinedRoles)
             {
-                roleOptions.Add(new SelectListItem(role.RoleName, role.RoleId.ToString()));
+                roleList.Add(new SelectListItem(role.RoleName, role.RoleId.ToString()));
             }
-            return roleOptions;
+            return roleList;
         }
 
 
@@ -68,12 +69,14 @@ namespace Konveyor.Data.SqlDataService
                 .Where(e => e.IsActive == true && e.User != null && e.Role != null);
 
             if (!employees.Any())
-                return null;
-
-            List<EmployeeDetailViewModel> activeEmployees = new List<EmployeeDetailViewModel>();
-            foreach (var employee in employees)
             {
-                var activeEmployee = new EmployeeDetailViewModel()
+                return null;
+            }
+
+            List<EmployeeDetailViewModel> employeeList = new List<EmployeeDetailViewModel>();
+            foreach (Employees employee in employees)
+            {
+                EmployeeDetailViewModel employeeInfo = new EmployeeDetailViewModel
                 {
                     EmployeeId = employee.EmployeeId,
                     EmployeeCode = employee.EmployeeCode,
@@ -89,9 +92,9 @@ namespace Konveyor.Data.SqlDataService
                     PhoneNumber = employee.User.PhoneNumber,
                     Gender = employee.User.Gender
                 };
-                activeEmployees.Add(activeEmployee);
+                employeeList.Add(employeeInfo);
             }
-            return activeEmployees;
+            return employeeList;
         }
 
 
@@ -99,9 +102,11 @@ namespace Konveyor.Data.SqlDataService
         {
             Employees employee = GetEmployeeById(employeeId);
             if (employee == null)
+            {
                 return null;
+            }
 
-            EmployeeDetailViewModel employeeDetails = new EmployeeDetailViewModel
+            EmployeeDetailViewModel employeeInfo = new EmployeeDetailViewModel
             {
                 EmployeeId = employee.EmployeeId,
                 EmployeeCode = employee.EmployeeCode,
@@ -117,7 +122,7 @@ namespace Konveyor.Data.SqlDataService
                 PhoneNumber = employee.User.PhoneNumber,
                 Gender = employee.User.Gender
             };
-            return employeeDetails;
+            return employeeInfo;
         }
 
 
@@ -138,7 +143,9 @@ namespace Konveyor.Data.SqlDataService
         {
             Employees employee = GetEmployeeById(employeeId);
             if (employee == null)
+            {
                 return null;
+            }
 
             EmployeeEditViewModel employeeForEdit = new EmployeeEditViewModel
             {

@@ -28,26 +28,6 @@ namespace Konveyor.Data.SqlDataService
         }
 
 
-        private List<SelectListItem> PopulateEmployees()
-        {
-            List<SelectListItem> employeeOptions = new List<SelectListItem>()
-            {
-                new SelectListItem("- Please select -", null),
-            };
-
-            var activeEmployees = dbcontext.Employees
-                .Where(e => e.IsActive == true && e.User != null)
-                .Include(e => e.User)
-                .OrderBy(e => e.User.FirstName)
-                .ThenBy(e => e.User.LastName).ToList();
-
-            foreach (var employee in activeEmployees)
-            {
-                employeeOptions.Add(new SelectListItem($"{employee.User.FirstName} {employee.User.LastName}", employee.EmployeeId.ToString()));
-            }
-            return employeeOptions;
-        }
-
         public struct PackageInformation
         {
             public Packages package;
@@ -55,41 +35,66 @@ namespace Konveyor.Data.SqlDataService
             public PackageUpdates recentUpdate;
         }
 
-        private List<SelectListItem> PopulatePackageTypes()
+
+        private List<SelectListItem> PopulateEmployees()
         {
-            List<SelectListItem> packageTypeOptions = new List<SelectListItem>()
+            List<SelectListItem> employeeList = new List<SelectListItem>
             {
                 new SelectListItem("- Please select -", null),
             };
 
-            var packageTypes = dbcontext.PackageTypes
-                .Where(t => t.IsActive == true)
-                .OrderBy(t => t.TypeId).ToList();
+            List<Employees> employees = dbcontext.Employees
+                .Where(e => e.IsActive == true && e.User != null)
+                .Include(e => e.User)
+                .OrderBy(e => e.User.FirstName)
+                .ThenBy(e => e.User.LastName)
+                .ToList();
 
-            foreach (var type in packageTypes)
+            foreach (Employees employee in employees)
             {
-                packageTypeOptions.Add(new SelectListItem(type.TypeName, type.TypeId.ToString()));
+                employeeList.Add(new SelectListItem($"{employee.User.FirstName} {employee.User.LastName}", employee.EmployeeId.ToString()));
             }
-            return statusOptions;
+            return employeeList;
+        }
+
+
+        private List<SelectListItem> PopulatePackageTypes()
+        {
+            List<SelectListItem> packageTypeList = new List<SelectListItem>
+            {
+                new SelectListItem("- Please select -", null),
+            };
+
+            List<PackageTypes> packageTypes = dbcontext.PackageTypes
+                .Where(t => t.IsActive == true)
+                .OrderBy(t => t.TypeId)
+                .ToList();
+
+            foreach (PackageTypes type in packageTypes)
+            {
+                packageTypeList.Add(new SelectListItem(type.TypeName, type.TypeId.ToString()));
+            }
+            return packageTypeList;
         }
 
 
         private List<SelectListItem> PopulateStatus()
         {
-            List<SelectListItem> statusOptions = new List<SelectListItem>()
+            List<SelectListItem> statusList = new List<SelectListItem>
             {
                 new SelectListItem("- Please select -", null),
             };
 
-            var statusValues = dbcontext.PackageStatus
+            List<PackageStatus> statusValues = dbcontext.PackageStatus
                 .Where(s => s.IsActive == true)
-                .OrderBy(s => s.PackageStatusId).ToList();
+                .OrderBy(s => s.PackageStatusId)
+                .ToList();
 
-            foreach (var status in statusValues)
+            foreach (PackageStatus status in statusValues)
             {
-                statusOptions.Add(new SelectListItem(status.PackageStatus1, status.PackageStatusId.ToString()));
+                statusList.Add(new SelectListItem(status.PackageStatus1, status.PackageStatusId.ToString()));
             }
-            return statusOptions;
+            return statusList;
         }
 
 
@@ -130,27 +135,29 @@ namespace Konveyor.Data.SqlDataService
                 .OrderBy(p => p.PackageId);
 
             if (!packages.Any())
+            {
                 return null;
+            }
 
             List<PackageDetailViewModel> packageList = new List<PackageDetailViewModel>();
 
-            foreach (var package in packages)
+            foreach (Packages package in packages)
             {
-                var initialUpdate = dbcontext.PackageUpdates
+                PackageUpdates initialUpdate = dbcontext.PackageUpdates
                     .Where(u => u.PackageId == package.PackageId)
                     .OrderBy(u => u.EntryId)
                     .Include(u => u.NewPackageStatus)
                     .Include(u => u.LoggedByNavigation)
                     .First();
 
-                var recentUpdate = dbcontext.PackageUpdates
+                PackageUpdates recentUpdate = dbcontext.PackageUpdates
                     .Where(u => u.PackageId == package.PackageId)
                     .OrderBy(u => u.EntryId)
                     .Include(u => u.NewPackageStatus)
                     .Include(u => u.LoggedByNavigation)
                     .Last();
 
-                var packageInfo = new PackageDetailViewModel()
+                PackageDetailViewModel packageInfo = new PackageDetailViewModel()
                 {
                     PackageId = package.PackageId,
                     PackageTypeId = package.PackageTypeId,
@@ -179,9 +186,11 @@ namespace Konveyor.Data.SqlDataService
 
         public PackageDetailViewModel GetPackageDetails(long packageId)
         {
-            var packageInfo = GetPackageById(packageId);
+            PackageInformation packageInfo = GetPackageById(packageId);
             if (packageInfo.package == null)
+            {
                 return null;
+            }
 
             PackageDetailViewModel packageDetails = new PackageDetailViewModel
             {
@@ -227,9 +236,11 @@ namespace Konveyor.Data.SqlDataService
 
         public PackageEditViewModel GetPackageForEdit(long packageId)
         {
-            var packageInfo = GetPackageById(packageId);
+            PackageInformation packageInfo = GetPackageById(packageId);
             if (packageInfo.package == null)
+            {
                 return null;
+            }
 
             PackageEditViewModel packageForEdit = new PackageEditViewModel
             {

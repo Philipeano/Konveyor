@@ -21,23 +21,24 @@ namespace Konveyor.Data.SqlDataService
             stateOptions = PopulateStates();
         }
 
-        // =================================================================
+
         private List<SelectListItem> PopulateStates()
         {
-            List<SelectListItem> stateOptions = new List<SelectListItem>()
+            List<SelectListItem> stateList = new List<SelectListItem>
             {
                 new SelectListItem("- Please select -", null),
             };
 
-            var nigerianStates = dbcontext.NigerianStates
+            List<NigerianStates> nigerianStates = dbcontext.NigerianStates
                 .Where(s => s.IsActive == true)
-                .OrderBy(s => s.State).ToList();
+                .OrderBy(s => s.State)
+                .ToList();
 
-            foreach (var state in nigerianStates)
+            foreach (NigerianStates state in nigerianStates)
             {
-                stateOptions.Add(new SelectListItem(state.State, state.StateId.ToString()));
+                stateList.Add(new SelectListItem(state.State, state.StateId.ToString()));
             }
-            return stateOptions;
+            return stateList;
         }
 
 
@@ -59,12 +60,14 @@ namespace Konveyor.Data.SqlDataService
                 .OrderBy(o => o.OfficeName);
 
             if (!offices.Any())
-                return null;
-
-            List<OfficeDetailViewModel> activeOffices = new List<OfficeDetailViewModel>();
-            foreach (var office in offices)
             {
-                var activeOffice = new OfficeDetailViewModel()
+                return null;
+            }
+
+            List<OfficeDetailViewModel> officeList = new List<OfficeDetailViewModel>();
+            foreach (Offices office in offices)
+            {
+                OfficeDetailViewModel officeInfo = new OfficeDetailViewModel()
                 {
                     OfficeId = office.OfficeId,
                     OfficeName = office.OfficeName,
@@ -76,9 +79,9 @@ namespace Konveyor.Data.SqlDataService
                     StateId = office.StateId,
                     State = office.State.State,
                 };
-                activeOffices.Add(activeOffice);
+                officeList.Add(officeInfo);
             }
-            return activeOffices;
+            return officeList;
         }
 
 
@@ -86,9 +89,11 @@ namespace Konveyor.Data.SqlDataService
         {
             Offices office = GetOfficeById(officeId);
             if (office == null)
+            {
                 return null;
+            }
 
-            OfficeDetailViewModel officeDetails = new OfficeDetailViewModel
+            OfficeDetailViewModel officeInfo = new OfficeDetailViewModel
             {
                 OfficeId = office.OfficeId,
                 OfficeName = office.OfficeName,
@@ -100,7 +105,7 @@ namespace Konveyor.Data.SqlDataService
                 StateId = office.StateId,
                 State = office.State.State,
             };
-            return officeDetails;
+            return officeInfo;
         }
 
 

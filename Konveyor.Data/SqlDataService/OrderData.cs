@@ -30,46 +30,6 @@ namespace Konveyor.Data.SqlDataService
             statusOptions = PopulateStatus();
         }
 
-        private List<SelectListItem> PopulateCustomers()
-        {
-            List<SelectListItem> customerOptions = new List<SelectListItem>()
-            {
-                new SelectListItem("- Please select -", null),
-            };
-
-            var activeCustomers = dbcontext.Customers
-                .Where(c => c.IsActive == true && c.User != null)
-                .Include(c => c.User)
-                .OrderBy(c => c.User.FirstName)
-                .ThenBy(c => c.User.LastName).ToList();
-
-            foreach (var customer in activeCustomers)
-            {
-                customerOptions.Add(new SelectListItem($"{customer.User.FirstName} {customer.User.LastName}", customer.CustomerId.ToString()));
-            }
-            return customerOptions;
-        }
-
-        private List<SelectListItem> PopulateEmployees()
-        {
-            List<SelectListItem> employeeOptions = new List<SelectListItem>()
-            {
-                new SelectListItem("- Please select -", null),
-            };
-
-            var activeEmployees = dbcontext.Employees
-                .Where(e => e.IsActive == true && e.User != null)
-                .Include(e => e.User)
-                .OrderBy(e => e.User.FirstName)
-                .ThenBy(e => e.User.LastName).ToList();
-
-            foreach (var employee in activeEmployees)
-            {
-                employeeOptions.Add(new SelectListItem($"{employee.User.FirstName} {employee.User.LastName}", employee.EmployeeId.ToString()));
-            }
-            return employeeOptions;
-        }
-
         public struct OrderInformation
         {
             public Orders order;
@@ -78,41 +38,89 @@ namespace Konveyor.Data.SqlDataService
         }
 
 
-        private List<SelectListItem> PopulateLocations()
+        private List<SelectListItem> PopulateCustomers()
         {
-            List<SelectListItem> locationOptions = new List<SelectListItem>()
+            List<SelectListItem> customerList = new List<SelectListItem>
             {
                 new SelectListItem("- Please select -", null),
             };
 
-            var availableOffices = dbcontext.Offices
-                .Where(o => o.IsActive == true)
-                .OrderBy(o => o.OfficeName).ToList();
+            List<Customers> customers = dbcontext.Customers
+                .Where(c => c.IsActive == true && c.User != null)
+                .Include(c => c.User)
+                .OrderBy(c => c.User.FirstName)
+                .ThenBy(c => c.User.LastName)
+                .ToList();
 
-            foreach (var office in availableOffices)
+            foreach (Customers customer in customers)
             {
-                locationOptions.Add(new SelectListItem(office.OfficeName, office.OfficeId.ToString()));
+                customerList.Add(new SelectListItem($"{customer.User.FirstName} {customer.User.LastName}", customer.CustomerId.ToString()));
             }
-            return locationOptions;
+            return customerList;
         }
+
+        
+        private List<SelectListItem> PopulateEmployees()
+        {
+            List<SelectListItem> employeeList = new List<SelectListItem>
+            {
+                new SelectListItem("- Please select -", null),
+            };
+
+            List<Employees> employees = dbcontext.Employees
+                .Where(e => e.IsActive == true && e.User != null)
+                .Include(e => e.User)
+                .OrderBy(e => e.User.FirstName)
+                .ThenBy(e => e.User.LastName)
+                .ToList();
+
+            foreach (Employees employee in employees)
+            {
+                employeeList.Add(new SelectListItem($"{employee.User.FirstName} {employee.User.LastName}", employee.EmployeeId.ToString()));
+            }
+            return employeeList;
+        }
+
+
+        private List<SelectListItem> PopulateLocations()
+        {
+            List<SelectListItem> officeList = new List<SelectListItem>
+            {
+                new SelectListItem("- Please select -", null),
+            };
+
+            List<Offices> offices = dbcontext.Offices
+                .Where(o => o.IsActive == true)
+                .OrderBy(o => o.OfficeName)
+                .ToList();
+
+            foreach (Offices office in offices)
+            {
+                officeList.Add(new SelectListItem(office.OfficeName, office.OfficeId.ToString()));
+            }
+            return officeList;
+        }
+
 
         private List<SelectListItem> PopulateStatus()
         {
-            List<SelectListItem> statusOptions = new List<SelectListItem>()
+            List<SelectListItem> statusList = new List<SelectListItem>
             {
                 new SelectListItem("- Please select -", null),
             };
 
-            var statusValues = dbcontext.OrderStatus
+            List<OrderStatus> statusValues = dbcontext.OrderStatus
                 .Where(s => s.IsActive == true)
-                .OrderBy(s => s.OrderStatusId).ToList();
+                .OrderBy(s => s.OrderStatusId)
+                .ToList();
 
-            foreach (var status in statusValues)
+            foreach (OrderStatus status in statusValues)
             {
-                statusOptions.Add(new SelectListItem(status.OrderStatus1, status.OrderStatusId.ToString()));
+                statusList.Add(new SelectListItem(status.OrderStatus1, status.OrderStatusId.ToString()));
             }
-            return statusOptions;
+            return statusList;
         }
+
 
         private OrderInformation GetOrderById(long id)
         {
@@ -152,27 +160,29 @@ namespace Konveyor.Data.SqlDataService
                 .OrderBy(o => o.OrderId);
 
             if (!orders.Any())
+            {
                 return null;
+            }
 
             List<OrderDetailViewModel> orderList = new List<OrderDetailViewModel>();
 
-            foreach (var order in orders)
+            foreach (Orders order in orders)
             {
-                var initialUpdate = dbcontext.OrderUpdates
+                OrderUpdates initialUpdate = dbcontext.OrderUpdates
                     .Where(u => u.OrderId == order.OrderId)
                     .OrderBy(u => u.EntryId)
                     .Include(u => u.NewOrderStatus)
                     .Include(u => u.ProcessedBy)
                     .First();
 
-                var recentUpdate = dbcontext.OrderUpdates
+                OrderUpdates recentUpdate = dbcontext.OrderUpdates
                     .Where(u => u.OrderId == order.OrderId)
                     .OrderBy(u => u.EntryId)
                     .Include(u => u.NewOrderStatus)
                     .Include(u => u.ProcessedBy)
                     .Last();
 
-                var orderInfo = new OrderDetailViewModel()
+                OrderDetailViewModel orderInfo = new OrderDetailViewModel()
                 {
                     OrderId = order.OrderId,
                     TrackingCode = order.TrackingCode,
@@ -202,11 +212,14 @@ namespace Konveyor.Data.SqlDataService
             return orderList;
         }
 
+
         public OrderDetailViewModel GetOrderDetails(long orderId)
         {
-            var orderInfo = GetOrderById(orderId);
+            OrderInformation orderInfo = GetOrderById(orderId);
             if (orderInfo.order == null)
+            {
                 return null;
+            }
 
             OrderDetailViewModel orderDetails = new OrderDetailViewModel
             {
@@ -259,9 +272,11 @@ namespace Konveyor.Data.SqlDataService
 
         public OrderEditViewModel GetOrderForEdit(long orderId)
         {
-            var orderInfo = GetOrderById(orderId);
+            OrderInformation orderInfo = GetOrderById(orderId);
             if (orderInfo.order == null)
+            {
                 return null;
+            }
 
             OrderEditViewModel orderForEdit = new OrderEditViewModel
             {
