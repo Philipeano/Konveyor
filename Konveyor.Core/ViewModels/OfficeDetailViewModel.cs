@@ -1,14 +1,10 @@
-﻿using Konveyor.Core.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Konveyor.Core.ViewModels
 {
-    public class OfficeDetailViewModel
+    public class OfficeDetailViewModel : OfficeBaseViewModel
     {
-        public OfficeDetailViewModel(Offices office)
-        {
-            Office = office;
-        }
-
-        public Offices Office { get; set; }
+        [Display(Name = "State")]
+        public string State { get; set; }
     }
 }

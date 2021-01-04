@@ -1,17 +1,7 @@
-﻿using Konveyor.Core.Models;
-
-namespace Konveyor.Core.ViewModels
+﻿namespace Konveyor.Core.ViewModels
 {
-    public class CustomerDetailViewModel
+    public class CustomerDetailViewModel : CustomerBaseViewModel
     {
-        public CustomerDetailViewModel(Users user, Customers customer)
-        {
-            User = user;
-            Customer = customer;
-        }
 
-        public Users User { get; set; }
-
-        public Customers Customer { get; set; }
     }
 }

@@ -1,23 +1,44 @@
-﻿using Konveyor.Core.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace Konveyor.Core.ViewModels
 {
-    public class PackageEditViewModel
+    public class PackageEditViewModel : PackageBaseViewModel
     {
-        public PackageEditViewModel(Packages package, IQueryable<PackageUpdates> packageUpdates)
-        {
-            Package = package;
-            PackageUpdates = packageUpdates;
-        }
+        [DataType(DataType.Text)]
+        [Required(ErrorMessage = "Select the type of package.")]
+        [Display(Name = "Package Type")]
+        public List<SelectListItem> PackageTypeOptions { get; set; }
 
-        public Packages Package { get; set; }
+        /* 
+           IMPORTANT NOTES:         
 
-        public IQueryable<PackageUpdates> PackageUpdates { get; set; }
+           When creating a new 'Packages' record:
+           - 'Recorder' should provide 'LoggedBy' value in 'PackageUpdates'
+           -  When Authentication/Authorisation is implemented, the logged-in user will automatically be the Recorder.
 
-        public List<PackageTypes> PackageTypeOptions { get; set; }
+           When updating an 'Packages' record: 
+           - 'Updater' should provide subsequent 'LoggedBy' value in 'PackageUpdates' 
+           -  When Authentication/Authorisation is implemented, the logged-in user will automatically be the Updater.
+           - 'NewStatus' should provide subsequent 'NewPackageStatus' value in 'PackageUpdates'                  
+         */
 
-        public List<PackageStatus> PackageStatusOptions { get; set; }
+        [DataType(DataType.Text)]
+        [Required(ErrorMessage = "Specify the staff member who received this package from the sender.")]
+        [Display(Name = "Recorded By")]
+        public List<SelectListItem> RecorderOptions { get; set; }
+
+
+        [DataType(DataType.Text)]
+        [Required(ErrorMessage = "Specify the staff member updating this package.")]
+        [Display(Name = "Updated By")]
+        public List<SelectListItem> UpdaterOptions { get; set; }
+
+
+        [DataType(DataType.Text)]
+        [Required(ErrorMessage = "Specify the new status of this package.")]
+        [Display(Name = "New Status")]
+        public List<SelectListItem> NewStatusOptions { get; set; }
     }
 }

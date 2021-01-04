@@ -1,21 +1,26 @@
-﻿using Konveyor.Core.Models;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Konveyor.Core.ViewModels
 {
-    public class OrderDetailViewModel
+    public class OrderDetailViewModel : OrderBaseViewModel
     {
-        public OrderDetailViewModel(Orders order, IQueryable<OrderUpdates> orderUpdates, IQueryable<Packages> packageList)
-        {
-            Order = order;
-            OrderUpdates = orderUpdates;
-            Packages = packageList;
-        }
+        [Display(Name = "Sender")]
+        public string SenderName { get; set; }
 
-        public Orders Order { get; set; }
 
-        public IQueryable<OrderUpdates> OrderUpdates { get; set; }
+        [Display(Name = "Origin")]
+        public string OriginOfficeName { get; set; }
 
-        public IQueryable<Packages> Packages { get; set; }
+
+        [Display(Name = "Destination")]
+        public string DestinationOfficeName { get; set; }
+
+
+        [Display(Name = "Initiated By")]
+        public string InitiatorName { get; set; }
+
+
+        [Display(Name = "Status")]
+        public string CurrentStatus { get; set; }
     }
 }

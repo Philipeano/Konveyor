@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Konveyor.Core.Models
 {
-    public partial class PackageStatus
+    public class PackageStatus
     {
         public PackageStatus()
         {

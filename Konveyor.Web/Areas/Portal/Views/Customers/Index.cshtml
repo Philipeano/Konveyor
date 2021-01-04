@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Konveyor.Core.ViewModels.CustomerDetailViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    ViewBag.ModalTitle = "Confirmation";
+    ViewBag.ModalMessage = "Are sure you want to remove this customer?";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>@ViewData["Description"]</h4>
+<hr />
+
+<div>
+    <p>
+        <a asp-action="Create">Register</a>
+    </p>
+    @{
+        if (Model == null)
+        {
+            <p>
+                <span class="danger">@ViewData["ErrorMessage"]</span>
+            </p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        @*<th>
+                                @Html.DisplayNameFor(model => model.CustomerId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CustomerCode)
+                            </th>*@
+                        <th>
+                            @Html.DisplayNameFor(model => model.PreferredName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ContactAddress)
+                        </th>
+                        @*<th>
+                                @Html.DisplayNameFor(model => model.UserId)
+                            </th>*@
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LastName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.EmailAddress)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PhoneNumber)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Gender)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            @*<td>
+                                    @Html.DisplayFor(modelItem => item.CustomerId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CustomerCode)
+                                </td>*@
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PreferredName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContactAddress)
+                            </td>
+                            @*<td>
+                                    @Html.DisplayFor(modelItem => item.UserId)
+                                </td>*@
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FirstName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LastName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EmailAddress)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Gender)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.CustomerId }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.CustomerId }) |
+                                <a href="#" id="btnDeleteItem" onclick="showModal('@item.CustomerId')">Delete</a>
+                                <a href="customers/delete/@item.CustomerId" onclick="return confirm('Are sure you want to remove this customer?');">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+</div>
+

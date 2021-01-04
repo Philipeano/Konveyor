@@ -1,17 +1,13 @@
-﻿using Konveyor.Core.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Konveyor.Core.ViewModels
 {
-    public class EmployeeDetailViewModel
+    public class EmployeeDetailViewModel : EmployeeBaseViewModel
     {
-        public EmployeeDetailViewModel(Users user, Employees employee)
-        {
-            User = user;
-            Employee = employee;
-        }
+        public string Gender { get; set; }
 
-        public Users User { get; set; }
 
-        public Employees Employee { get; set; }
+        [Display(Name = "User Role")]
+        public string RoleName { get; set; }
     }
 }

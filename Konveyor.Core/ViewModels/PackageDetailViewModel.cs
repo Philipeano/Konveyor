@@ -1,18 +1,19 @@
-﻿using Konveyor.Core.Models;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
+using Konveyor.Core.ViewModels;
 
 namespace Konveyor.Core.ViewModels
 {
-    public class PackageDetailViewModel
+    public class PackageDetailViewModel : PackageBaseViewModel
     {
-        public PackageDetailViewModel(Packages package, IQueryable<PackageUpdates> packageUpdates)
-        {
-            Package = package;
-            PackageUpdates = packageUpdates;
-        }
+        [Display(Name = "Package Type")]
+        public string PackageType { get; set; }
 
-        public Packages Package { get; set; }
 
-        public IQueryable<PackageUpdates> PackageUpdates { get; set; }
+        [Display(Name = "Recorded By")]
+        public string RecorderName { get; set; }
+
+
+        [Display(Name = "Status")]
+        public string CurrentStatus { get; set; }
     }
 }

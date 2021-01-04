@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Konveyor.Core.Models
 {
-    public partial class Offices
+    public class Offices
     {
         public Offices()
         {

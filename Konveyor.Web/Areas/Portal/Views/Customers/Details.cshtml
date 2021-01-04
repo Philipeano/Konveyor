@@ -1,0 +1,96 @@
+﻿@model Konveyor.Core.ViewModels.CustomerDetailViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>@ViewData["Description"]</h4>
+<hr />
+
+<div>
+    @{
+        if (Model == null)
+        {
+            <p>
+                <span class="danger">@ViewData["ErrorMessage"]</span>
+            </p>
+        }
+        else
+        {
+            <dl class="row">
+                @*<dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.CustomerId)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.CustomerId)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.CustomerCode)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.CustomerCode)
+                    </dd>*@
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PreferredName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PreferredName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ContactAddress)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ContactAddress)
+                </dd>
+                @*<dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.UserId)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.UserId)
+                    </dd>*@
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.EmailAddress)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.EmailAddress)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PhoneNumber)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Gender)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Gender)
+                </dd>
+            </dl>
+        }
+    }
+</div>
+<div>
+    @{ if (Model != null)
+        {
+            <span class="danger">
+                @Html.ActionLink("Edit", "Edit", new { id = Model.CustomerId }) |
+            </span>
+        }
+    }
+    <a asp-action="Index">Back to List</a>
+</div>

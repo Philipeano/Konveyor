@@ -40,6 +40,66 @@
             &copy; 2020 - Konveyor - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+    @* Being modal popup *@
+    <div class="modal fade" tabindex="-1" id="genericModal" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-sm" style="">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">@ViewBag.ModalTitle</h4>
+                    @*<button type="button" class="close" data-dismiss="modal">×</button>*@
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <span class="form-control" style="border:none; font-size:18px; padding:0px;">@ViewBag.ModalMessage</span>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <form id="genericModalForm" asp-action="Delete">
+                        <input name="hdnModalRouteParam" type="hidden" value="@ViewBag.ModalValue">
+                        <button type="submit" id="btnProceed" class="btn btn-primary button button4">Proceed</button>
+                        <button type="button" id="btnHideModal" class="btn btn-secondary button button4" data-dismiss="modal">Cancel</button>
+                        @*<a id="btnProceed" class="btn btn-primary button button4" href="customers/delete/@ViewBag.ModalValue">Proceed</a>*@
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        //$(document).ready(function () {
+        //    $("#btnDeleteItem").click(function () {
+        //        $("#genericModal").modal('show');
+        //    });
+
+        //    $("#btnHideModal").click(function () {
+        //        $("#genericModal").modal('hide');
+        //    });
+        //});
+
+        function showModal(routeInfo) {
+            /**/
+            console.log("Selected Customer ID: " + routeInfo);
+            /**/
+            $("#hdnModalRouteParam").val(routeInfo);
+            $("#genericModal").modal('show');
+        }
+
+        //function postModal(routeInfo) {
+        //    $("form#genericModalForm").submit(function (e) {
+        //        if (routeInfo == null || routeInfo == 0) {
+        //            e.preventDefault();
+        //        }
+        //        else {
+        //            $("input#hdnModalRouteParam").val(routeInfo);
+        //        }
+        //    })
+        //}
+    </script>
+    @* End modal popup *@
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

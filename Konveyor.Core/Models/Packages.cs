@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Konveyor.Core.Models
 {
-    public partial class Packages
+    public class Packages
     {
         public Packages()
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Konveyor.Core.Models
 {
-    public partial class Users
+    public class Users
     {
         public long UserId { get; set; }
         public string FirstName { get; set; }

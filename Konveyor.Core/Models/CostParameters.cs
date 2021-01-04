@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Konveyor.Core.Models
 {
-    public partial class CostParameters
+    public class CostParameters
     {
         public int ParameterId { get; set; }
         public string ParameterName { get; set; }

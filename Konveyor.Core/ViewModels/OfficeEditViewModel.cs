@@ -1,18 +1,14 @@
-﻿using Konveyor.Core.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Konveyor.Core.ViewModels
 {
-    public class OfficeEditViewModel
+    public class OfficeEditViewModel : OfficeBaseViewModel
     {
-        public OfficeEditViewModel(Offices office, List<NigerianStates> nigerianStates)
-        {
-            Office = office;
-            NigerianStates = nigerianStates;
-        }
-
-        public Offices Office { get; set; }
-
-        public List<NigerianStates> NigerianStates { get; set; }
+        [DataType(DataType.Text)]
+        [Required(ErrorMessage = "Select the state where this office is located.")]
+        [Display(Name = "State")]
+        public List<SelectListItem> StateOptions { get; set; }
     }
 }
