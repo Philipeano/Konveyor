@@ -6,7 +6,7 @@ namespace Konveyor.Data.SqlDataService.CustomTypes
 {
     public struct PackageInformation : IEquatable<PackageInformation>
     {
-        public bool Equals([AllowNull] PackageInformation packageInfo)
+        public bool Equals([AllowNull] PackageInformation other)
         {
             throw new NotImplementedException();
         }

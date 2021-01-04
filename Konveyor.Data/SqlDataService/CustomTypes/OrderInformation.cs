@@ -6,7 +6,7 @@ namespace Konveyor.Data.SqlDataService.CustomTypes
 {
     public struct OrderInformation : IEquatable<OrderInformation>
     {
-        public bool Equals([AllowNull] OrderInformation orderInfo)
+        public bool Equals([AllowNull] OrderInformation other)
         {
             throw new NotImplementedException();
         }
