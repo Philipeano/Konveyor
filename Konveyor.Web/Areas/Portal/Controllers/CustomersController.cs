@@ -102,7 +102,7 @@ namespace Konveyor.Web.Areas.Portal.Controllers
         {
             try
             {
-                CustomerEditViewModel customerVM = new CustomerEditViewModel()
+                CustomerEditViewModel customerVM = new CustomerEditViewModel
                 {
                     CustomerId = id,
                     PreferredName = collection["PreferredName"],
