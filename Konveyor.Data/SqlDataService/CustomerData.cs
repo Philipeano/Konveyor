@@ -113,7 +113,9 @@ namespace Konveyor.Data.SqlDataService
         {
             Customers customer = GetCustomerById(customerId);
             if (customer == null)
+            {
                 return null;
+            }
 
             CustomerEditViewModel customerForEdit = new CustomerEditViewModel
             {

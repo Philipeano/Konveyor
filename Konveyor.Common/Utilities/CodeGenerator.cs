@@ -2,9 +2,9 @@
 
 namespace Konveyor.Common.Utilities
 {
-    public class CodeGenerator
+    public static class CodeGenerator
     {
-        private static readonly Random random = new System.Random();
+        private static readonly Random random = new Random();
         private static readonly object syncLock = new object();
 
 

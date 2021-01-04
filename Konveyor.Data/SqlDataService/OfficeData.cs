@@ -67,7 +67,7 @@ namespace Konveyor.Data.SqlDataService
             List<OfficeDetailViewModel> officeList = new List<OfficeDetailViewModel>();
             foreach (Offices office in offices)
             {
-                OfficeDetailViewModel officeInfo = new OfficeDetailViewModel()
+                OfficeDetailViewModel officeInfo = new OfficeDetailViewModel
                 {
                     OfficeId = office.OfficeId,
                     OfficeName = office.OfficeName,
@@ -124,7 +124,9 @@ namespace Konveyor.Data.SqlDataService
         {
             Offices office = GetOfficeById(officeId);
             if (office == null)
+            {
                 return null;
+            }
 
             OfficeEditViewModel officeForEdit = new OfficeEditViewModel
             {

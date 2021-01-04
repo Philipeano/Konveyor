@@ -2,6 +2,7 @@
 using Konveyor.Core.Models;
 using Konveyor.Core.ViewModels;
 using Konveyor.Data.Contracts;
+using Konveyor.Data.SqlDataService.CustomTypes;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -25,14 +26,6 @@ namespace Konveyor.Data.SqlDataService
             attendantOptions = PopulateEmployees();
             packageTypeOptions = PopulatePackageTypes();
             statusOptions = PopulateStatus();
-        }
-
-
-        public struct PackageInformation
-        {
-            public Packages package;
-            public PackageUpdates initialUpdate;
-            public PackageUpdates recentUpdate;
         }
 
 
@@ -102,20 +95,20 @@ namespace Konveyor.Data.SqlDataService
         {
             PackageInformation packageInfo = new PackageInformation
             {
-                package = dbcontext.Packages
+                Package = dbcontext.Packages
                 .Where(p => p.Order != null && p.PackageType != null && p.PackageId == id)
                 .Include(p => p.Order)
                 .Include(p => p.PackageType)
                 .SingleOrDefault(),
 
-                initialUpdate = dbcontext.PackageUpdates
+                InitialUpdate = dbcontext.PackageUpdates
                 .Where(u => u.PackageId == id)
                 .OrderBy(u => u.EntryId)
                 .Include(u => u.NewPackageStatus)
                 .Include(u => u.LoggedByNavigation)
                 .First(),
 
-                recentUpdate = dbcontext.PackageUpdates
+                RecentUpdate = dbcontext.PackageUpdates
                 .Where(u => u.PackageId == id)
                 .OrderBy(u => u.EntryId)
                 .Include(u => u.NewPackageStatus)
@@ -157,7 +150,7 @@ namespace Konveyor.Data.SqlDataService
                     .Include(u => u.LoggedByNavigation)
                     .Last();
 
-                PackageDetailViewModel packageInfo = new PackageDetailViewModel()
+                PackageDetailViewModel packageInfo = new PackageDetailViewModel
                 {
                     PackageId = package.PackageId,
                     PackageTypeId = package.PackageTypeId,
@@ -187,31 +180,31 @@ namespace Konveyor.Data.SqlDataService
         public PackageDetailViewModel GetPackageDetails(long packageId)
         {
             PackageInformation packageInfo = GetPackageById(packageId);
-            if (packageInfo.package == null)
+            if (packageInfo.Package == null)
             {
                 return null;
             }
 
             PackageDetailViewModel packageDetails = new PackageDetailViewModel
             {
-                PackageId = packageInfo.package.PackageId,
-                PackageTypeId = packageInfo.package.PackageTypeId,
-                PackageType = packageInfo.package.PackageType.TypeName,
-                Description = packageInfo.package.Description,
-                Fragile = packageInfo.package.Fragile,
-                Weight = (double)packageInfo.package.Weight,
-                Volume = (double)packageInfo.package.Volume,
+                PackageId = packageInfo.Package.PackageId,
+                PackageTypeId = packageInfo.Package.PackageTypeId,
+                PackageType = packageInfo.Package.PackageType.TypeName,
+                Description = packageInfo.Package.Description,
+                Fragile = packageInfo.Package.Fragile,
+                Weight = (double)packageInfo.Package.Weight,
+                Volume = (double)packageInfo.Package.Volume,
 
-                OrderId = packageInfo.package.OrderId,
+                OrderId = packageInfo.Package.OrderId,
                 OrderVM = orderInfo,
 
-                DateRecorded = packageInfo.initialUpdate.EntryDate,
-                RecorderId = (long)packageInfo.initialUpdate.LoggedBy,
-                RecorderName = $"{packageInfo.initialUpdate.LoggedByNavigation.User.FirstName} {packageInfo.initialUpdate.LoggedByNavigation.User.LastName}",
+                DateRecorded = packageInfo.InitialUpdate.EntryDate,
+                RecorderId = (long)packageInfo.InitialUpdate.LoggedBy,
+                RecorderName = $"{packageInfo.InitialUpdate.LoggedByNavigation.User.FirstName} {packageInfo.InitialUpdate.LoggedByNavigation.User.LastName}",
 
-                CurrentStatusId = packageInfo.recentUpdate.NewPackageStatusId,
-                CurrentStatus = packageInfo.recentUpdate.NewPackageStatus.PackageStatus1,
-                Remarks = packageInfo.recentUpdate.Remarks,
+                CurrentStatusId = packageInfo.RecentUpdate.NewPackageStatusId,
+                CurrentStatus = packageInfo.RecentUpdate.NewPackageStatus.PackageStatus1,
+                Remarks = packageInfo.RecentUpdate.Remarks,
             };
             return packageDetails;
         }
@@ -237,29 +230,29 @@ namespace Konveyor.Data.SqlDataService
         public PackageEditViewModel GetPackageForEdit(long packageId)
         {
             PackageInformation packageInfo = GetPackageById(packageId);
-            if (packageInfo.package == null)
+            if (packageInfo.Package == null)
             {
                 return null;
             }
 
             PackageEditViewModel packageForEdit = new PackageEditViewModel
             {
-                PackageId = packageInfo.package.PackageId,
-                Description = packageInfo.package.Description,
-                Fragile = packageInfo.package.Fragile,
-                Weight = (double) packageInfo.package.Weight,
-                Volume = (double) packageInfo.package.Volume,
+                PackageId = packageInfo.Package.PackageId,
+                Description = packageInfo.Package.Description,
+                Fragile = packageInfo.Package.Fragile,
+                Weight = (double) packageInfo.Package.Weight,
+                Volume = (double) packageInfo.Package.Volume,
 
-                PackageTypeId = packageInfo.package.PackageTypeId,
+                PackageTypeId = packageInfo.Package.PackageTypeId,
                 PackageTypeOptions = packageTypeOptions,
 
                 OrderId = orderInfo.OrderId,
                 OrderVM = orderInfo,
 
-                RecorderId = (long)packageInfo.initialUpdate.LoggedBy,
-                DateRecorded = packageInfo.initialUpdate.EntryDate,
-                CurrentStatusId = packageInfo.recentUpdate.NewPackageStatusId,
-                Remarks = packageInfo.recentUpdate.Remarks,
+                RecorderId = (long)packageInfo.InitialUpdate.LoggedBy,
+                DateRecorded = packageInfo.InitialUpdate.EntryDate,
+                CurrentStatusId = packageInfo.RecentUpdate.NewPackageStatusId,
+                Remarks = packageInfo.RecentUpdate.Remarks,
 
                 NewStatusOptions = statusOptions,
                 UpdaterOptions = attendantOptions,
@@ -267,8 +260,8 @@ namespace Konveyor.Data.SqlDataService
             };
 
             //IMPORTANT:  Assign dropdownlist values for display purposes only. Be sure to disable them in the Edit view.
-            packageForEdit.PackageTypeOptions.Find(t => t.Value == packageInfo.package.PackageTypeId.ToString()).Selected = true;
-            packageForEdit.NewStatusOptions.Find(s => s.Value == packageInfo.recentUpdate.NewPackageStatusId.ToString()).Selected = true;
+            packageForEdit.PackageTypeOptions.Find(t => t.Value == packageInfo.Package.PackageTypeId.ToString()).Selected = true;
+            packageForEdit.NewStatusOptions.Find(s => s.Value == packageInfo.RecentUpdate.NewPackageStatusId.ToString()).Selected = true;
             packageForEdit.UpdaterOptions.Find(u => u.Value == null).Selected = true;
             return packageForEdit;
         }
@@ -281,7 +274,7 @@ namespace Konveyor.Data.SqlDataService
 
             if (packageInfo.PackageId > 0)
             {
-                packageToSave = GetPackageById(packageInfo.PackageId).package;
+                packageToSave = GetPackageById(packageInfo.PackageId).Package;
 
                 packageUpdateToSave.NewPackageStatusId = (int)new SelectList(packageInfo.NewStatusOptions).SelectedValue;
                 packageUpdateToSave.Remarks = packageInfo.NewRemarks;

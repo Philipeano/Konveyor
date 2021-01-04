@@ -2,6 +2,7 @@
 using Konveyor.Core.Models;
 using Konveyor.Core.ViewModels;
 using Konveyor.Data.Contracts;
+using Konveyor.Data.SqlDataService.CustomTypes;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,13 +29,6 @@ namespace Konveyor.Data.SqlDataService
             senderOptions = PopulateCustomers();
             attendantOptions = PopulateEmployees();
             statusOptions = PopulateStatus();
-        }
-
-        public struct OrderInformation
-        {
-            public Orders order;
-            public OrderUpdates initialUpdate;
-            public OrderUpdates recentUpdate;
         }
 
 
@@ -126,21 +120,21 @@ namespace Konveyor.Data.SqlDataService
         {
             OrderInformation orderInfo = new OrderInformation
             {
-                order = dbcontext.Orders
+                Order = dbcontext.Orders
                 .Where(o => o.Sender != null && o.OriginOffice != null && o.DestinationOffice != null && o.OrderId == id)
                 .Include(o => o.OriginOffice)
                 .Include(o => o.DestinationOffice)
                 .Include(o => o.Sender)
                 .SingleOrDefault(),
 
-                initialUpdate = dbcontext.OrderUpdates
+                InitialUpdate = dbcontext.OrderUpdates
                 .Where(u => u.OrderId == id)
                 .OrderBy(u => u.EntryId)
                 .Include(u => u.NewOrderStatus)
                 .Include(u => u.ProcessedByNavigation)
                 .First(),
 
-                recentUpdate = dbcontext.OrderUpdates
+                RecentUpdate = dbcontext.OrderUpdates
                 .Where(u => u.OrderId == id)
                 .OrderBy(u => u.EntryId)
                 .Include(u => u.NewOrderStatus)
@@ -182,7 +176,7 @@ namespace Konveyor.Data.SqlDataService
                     .Include(u => u.ProcessedBy)
                     .Last();
 
-                OrderDetailViewModel orderInfo = new OrderDetailViewModel()
+                OrderDetailViewModel orderInfo = new OrderDetailViewModel
                 {
                     OrderId = order.OrderId,
                     TrackingCode = order.TrackingCode,
@@ -216,35 +210,35 @@ namespace Konveyor.Data.SqlDataService
         public OrderDetailViewModel GetOrderDetails(long orderId)
         {
             OrderInformation orderInfo = GetOrderById(orderId);
-            if (orderInfo.order == null)
+            if (orderInfo.Order == null)
             {
                 return null;
             }
 
             OrderDetailViewModel orderDetails = new OrderDetailViewModel
             {
-                OrderId = orderInfo.order.OrderId,
-                TrackingCode = orderInfo.order.TrackingCode,
-                RecipientName = orderInfo.order.RecipientName,
-                RecipientPhone = orderInfo.order.RecipientPhone,
-                RecipientAddress = orderInfo.order.RecipientAddress,
-                TotalCost = orderInfo.order.TotalCost,
-                ExpressService = orderInfo.order.ExpressService,
-                ExpectedNumOfDays = orderInfo.order.ExpectedNumOfDays,
-                SenderId = orderInfo.order.SenderId,
-                SenderName = $"{orderInfo.order.Sender.User.FirstName} {orderInfo.order.Sender.User.LastName}",
-                OriginOfficeId = orderInfo.order.OriginOfficeId,
-                OriginOfficeName = orderInfo.order.OriginOffice.OfficeName,
-                DestinationOfficeId = orderInfo.order.DestinationOfficeId,
-                DestinationOfficeName = orderInfo.order.DestinationOffice.OfficeName,
+                OrderId = orderInfo.Order.OrderId,
+                TrackingCode = orderInfo.Order.TrackingCode,
+                RecipientName = orderInfo.Order.RecipientName,
+                RecipientPhone = orderInfo.Order.RecipientPhone,
+                RecipientAddress = orderInfo.Order.RecipientAddress,
+                TotalCost = orderInfo.Order.TotalCost,
+                ExpressService = orderInfo.Order.ExpressService,
+                ExpectedNumOfDays = orderInfo.Order.ExpectedNumOfDays,
+                SenderId = orderInfo.Order.SenderId,
+                SenderName = $"{orderInfo.Order.Sender.User.FirstName} {orderInfo.Order.Sender.User.LastName}",
+                OriginOfficeId = orderInfo.Order.OriginOfficeId,
+                OriginOfficeName = orderInfo.Order.OriginOffice.OfficeName,
+                DestinationOfficeId = orderInfo.Order.DestinationOfficeId,
+                DestinationOfficeName = orderInfo.Order.DestinationOffice.OfficeName,
 
-                DateInitiated = orderInfo.initialUpdate.EntryDate,
-                InitiatorId = (long)orderInfo.initialUpdate.ProcessedBy,
-                InitiatorName = $"{orderInfo.initialUpdate.ProcessedByNavigation.User.FirstName} {orderInfo.initialUpdate.ProcessedByNavigation.User.LastName}",
+                DateInitiated = orderInfo.InitialUpdate.EntryDate,
+                InitiatorId = (long)orderInfo.InitialUpdate.ProcessedBy,
+                InitiatorName = $"{orderInfo.InitialUpdate.ProcessedByNavigation.User.FirstName} {orderInfo.InitialUpdate.ProcessedByNavigation.User.LastName}",
 
-                CurrentStatusId = orderInfo.recentUpdate.NewOrderStatusId,
-                CurrentStatus = orderInfo.recentUpdate.NewOrderStatus.OrderStatus1,
-                Remarks = orderInfo.recentUpdate.Remarks,
+                CurrentStatusId = orderInfo.RecentUpdate.NewOrderStatusId,
+                CurrentStatus = orderInfo.RecentUpdate.NewOrderStatus.OrderStatus1,
+                Remarks = orderInfo.RecentUpdate.Remarks,
             };
             return orderDetails;
         }
@@ -273,31 +267,31 @@ namespace Konveyor.Data.SqlDataService
         public OrderEditViewModel GetOrderForEdit(long orderId)
         {
             OrderInformation orderInfo = GetOrderById(orderId);
-            if (orderInfo.order == null)
+            if (orderInfo.Order == null)
             {
                 return null;
             }
 
             OrderEditViewModel orderForEdit = new OrderEditViewModel
             {
-                OrderId = orderInfo.order.OrderId,
-                TrackingCode = orderInfo.order.TrackingCode,
-                RecipientName = orderInfo.order.RecipientName,
-                RecipientPhone = orderInfo.order.RecipientPhone,
-                RecipientAddress = orderInfo.order.RecipientAddress,
-                TotalCost = orderInfo.order.TotalCost,
-                ExpressService = orderInfo.order.ExpressService,
-                ExpectedNumOfDays = orderInfo.order.ExpectedNumOfDays,
+                OrderId = orderInfo.Order.OrderId,
+                TrackingCode = orderInfo.Order.TrackingCode,
+                RecipientName = orderInfo.Order.RecipientName,
+                RecipientPhone = orderInfo.Order.RecipientPhone,
+                RecipientAddress = orderInfo.Order.RecipientAddress,
+                TotalCost = orderInfo.Order.TotalCost,
+                ExpressService = orderInfo.Order.ExpressService,
+                ExpectedNumOfDays = orderInfo.Order.ExpectedNumOfDays,
 
                 OriginOptions = originOptions,
                 DestinationOptions = destinationOptions,
                 InitiatorOptions = attendantOptions,
                 SenderOptions = senderOptions,
 
-                InitiatorId = (long)orderInfo.initialUpdate.ProcessedBy,
-                DateInitiated = orderInfo.initialUpdate.EntryDate,
-                CurrentStatusId = orderInfo.recentUpdate.NewOrderStatusId,
-                Remarks = orderInfo.recentUpdate.Remarks,
+                InitiatorId = (long)orderInfo.InitialUpdate.ProcessedBy,
+                DateInitiated = orderInfo.InitialUpdate.EntryDate,
+                CurrentStatusId = orderInfo.RecentUpdate.NewOrderStatusId,
+                Remarks = orderInfo.RecentUpdate.Remarks,
 
                 NewStatusOptions = statusOptions,
                 UpdaterOptions = attendantOptions,
@@ -306,12 +300,12 @@ namespace Konveyor.Data.SqlDataService
 
 
             //IMPORTANT:  Assign dropdownlist values for display purposes only. Be sure to disable them in the Edit view.
-            orderForEdit.OriginOptions.Find(o => o.Value == orderInfo.order.OriginOfficeId.ToString()).Selected = true;
-            orderForEdit.DestinationOptions.Find(d => d.Value == orderInfo.order.DestinationOfficeId.ToString()).Selected = true;
-            orderForEdit.InitiatorOptions.Find(i => i.Value == orderInfo.initialUpdate.ProcessedBy.ToString()).Selected = true;
-            orderForEdit.SenderOptions.Find(s => s.Value == orderInfo.order.SenderId.ToString()).Selected = true;
+            orderForEdit.OriginOptions.Find(o => o.Value == orderInfo.Order.OriginOfficeId.ToString()).Selected = true;
+            orderForEdit.DestinationOptions.Find(d => d.Value == orderInfo.Order.DestinationOfficeId.ToString()).Selected = true;
+            orderForEdit.InitiatorOptions.Find(i => i.Value == orderInfo.InitialUpdate.ProcessedBy.ToString()).Selected = true;
+            orderForEdit.SenderOptions.Find(s => s.Value == orderInfo.Order.SenderId.ToString()).Selected = true;
 
-            orderForEdit.NewStatusOptions.Find(s => s.Value == orderInfo.recentUpdate.NewOrderStatusId.ToString()).Selected = true;
+            orderForEdit.NewStatusOptions.Find(s => s.Value == orderInfo.RecentUpdate.NewOrderStatusId.ToString()).Selected = true;
             orderForEdit.UpdaterOptions.Find(u => u.Value == null).Selected = true;
             return orderForEdit;
         }
@@ -324,7 +318,7 @@ namespace Konveyor.Data.SqlDataService
 
             if (orderInfo.OrderId > 0)
             {
-                orderToSave = GetOrderById(orderInfo.OrderId).order;
+                orderToSave = GetOrderById(orderInfo.OrderId).Order;
 
                 orderUpdateToSave.NewOrderStatusId = (int)new SelectList(orderInfo.NewStatusOptions).SelectedValue;
                 orderUpdateToSave.Remarks = orderInfo.NewRemarks;

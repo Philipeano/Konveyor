@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Konveyor.Data.SqlDataService
 {
-    public partial class KonveyorDbContext : DbContext
+    public class KonveyorDbContext : DbContext
     {
         public KonveyorDbContext(DbContextOptions<KonveyorDbContext> options)
             : base(options)
@@ -429,10 +429,6 @@ namespace Konveyor.Data.SqlDataService
 
                 entity.Property(e => e.PhoneNumber).HasMaxLength(20);
             });
-
-            OnModelCreatingPartial(modelBuilder);
         }
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
