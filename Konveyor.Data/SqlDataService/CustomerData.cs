@@ -187,7 +187,7 @@ namespace Konveyor.Data.SqlDataService
                 userToSave.LastName = customerInfo.LastName;
                 userToSave.EmailAddress = customerInfo.EmailAddress;
                 userToSave.PhoneNumber = customerInfo.PhoneNumber;
-                userToSave.Gender = new SelectList(customerInfo.GenderOptions).SelectedValue.ToString();
+                userToSave.Gender = customerInfo.Gender;
                 userToSave.Password = customerInfo.Password;
                 customerToSave.User = userToSave;
 
