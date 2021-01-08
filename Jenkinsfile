@@ -6,17 +6,17 @@ pipeline {
  stages {  
   stage('Checkout') {  
    steps {  
-    git credentialsId: 'e7b2b49d-db4a-4e87-b403-f9e6d2f16fe0', url: 'https://github.com/philipeano/Konveyor', branch: 'jenkins-integration'  
+    git credentialsId: 'c4d77f79-b332-4211-b8be-f32c145f02cf', url: 'https://github.com/philipeano/Konveyor', branch: 'jenkins-integration'  
    }  
   }  
  stage('Build') {  
    steps {  
-    bat 'dotnet build Konveyor\\Konveyor.sln --configuration Release'  
+    bat 'dotnet msbuild Konveyor.sln  -r:True -t:Rebuild -p:Configuration=Release'  
    }  
   }  
   stage('Test') {  
    steps {  
-    bat 'dotnet test Konveyor\\Konveyor.Common.Tests\\Konveyor.Common.Tests.csproj --logger:trx'  
+    bat 'dotnet test Konveyor.Common.Tests\\Konveyor.Common.Tests.csproj --logger:trx'  
    }  
   }  
  }  
