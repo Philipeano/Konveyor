@@ -20,7 +20,7 @@ Konveyor is a web portal for logistics and parcel delivery business operators an
 
 
 
-### Technologies used
+### Technologies/Tools used
 
 - Primary language: ```C#``` 
 - Server technology: ```ASP.Net Core MVC```
@@ -28,6 +28,10 @@ Konveyor is a web portal for logistics and parcel delivery business operators an
 - Database system: ```Microsoft SQL Server``` & ```Azure SQL Database```
 - ORM: ```Entity Framework Core```
 - Front-end libraries: ```Bootstrap```, ```jQuery```
+
+- Issue tracking: ```JIRA``` 
+- Build automation: ```Jenkins``` 
+- Testing framework: ```xUnit``` 
 
 
 
