@@ -6,7 +6,7 @@ pipeline {
  stages {  
   stage('Checkout') {  
    steps {  
-    git credentialsId: 'c4d77f79-b332-4211-b8be-f32c145f02cf', url: 'https://github.com/philipeano/Konveyor'  
+    git credentialsId: 'c4d77f79-b332-4211-b8be-f32c145f02cf', url: 'https://github.com/philipeano/Konveyor', branch: '*/*'  
    }  
   }  
  stage('Build') {  
